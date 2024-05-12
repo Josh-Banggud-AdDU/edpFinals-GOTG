@@ -10,7 +10,7 @@
     About the Project
   </h2>
   <p>
-    The Game of the Generals is a web application finals project for my Event-Driven Programming class to replicate the Philippine board game with a similar name. The web application closely replicates the functionalities and rules of the actual game, with additional difficulty and gamemode settings. The game offers player versus player (PVP) and player versus bot (PVB) functionalities with difficulty settings that employ restrictions to its game rules. Additionally, the web application offers state retention by utilizing client-side local storage, and a crude bot movement and capture mechanics. 
+    The Game of the Generals is a web application finals project developed by a group of 3 for our Event-Driven Programming class to replicate the Philippine board game with a similar name. The web application closely replicates the functionalities and rules of the actual game, with additional difficulty and gamemode settings. The game offers player versus player (PVP) and player versus bot (PVB) functionalities with difficulty settings that employ restrictions to its game rules. Additionally, the web application offers state retention by utilizing client-side local storage, and a crude bot movement and capture mechanics. 
   </p>
   <div>
     <h3>
