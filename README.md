@@ -1,5 +1,7 @@
+
 <div align="center">
   <p>
+    <img src="EDP_Assets/Title_V2.png"
   </p>
   <h1>
     Game of the Generals
