@@ -1,0 +1,91 @@
+body{
+    overflow: hidden;
+}
+.font-stardos-stencil{
+    font-family: 'Stardos Stencil', cursive;
+}
+.font-josefin-sans, body{
+    font-family: 'Josefin Sans', sans-serif;
+}
+.blur-screen{
+    filter: blur(3px);
+}
+.width-45{
+    width: 45%;
+}
+.width-27-5{
+    width: 27.5%;
+}
+.height-12-5{
+    height: 12.5%;
+}
+.height-87-5{
+    height: 87.5%;
+}
+.border-custom-5{
+    border: 5px solid transparent;
+    border-radius: 5px;
+}
+.border-custom-10{
+    border: 10px solid transparent;
+    border-radius: 10px;
+}
+.border-custom-20{
+    border: 20px solid transparent;
+    border-radius: 20px;
+}
+.border-custom-30{
+    border: 30px solid transparent;
+    border-radius: 30px;
+}
+.border-green{
+    border-image: url('EDP_Assets/Border.png') 33% round;
+}
+.border-blue{
+    border-image: url('EDP_Assets/Border_Blue.png') 33% round;
+}
+.border-red{
+    border-image: url('EDP_Assets/Border_Red.png') 33% round;
+}
+.bg-custom-green1{
+    background-color: rgb(214, 240, 160);
+}
+.bg-custom-blue1{
+    background-color: #89b6cc;
+}
+.bg-custom-red1{
+    background-color: #cc8989;
+}
+.card-clickable{
+    z-index: -1;
+}
+#easyCard:hover, #easyCard:hover > .card-clickable{
+    border-image: url('EDP_Assets/Border_Blue.png') 33% round;
+    background-image: linear-gradient(to top, rgb(30, 82, 107, .65), rgb(132, 185, 188, .4), rgb(175, 242, 220, .25));
+}
+#hardCard:hover, #hardCard:hover > .card-clickable{
+    border-image: url('EDP_Assets/Border_Red.png') 33% round;
+    background-image: linear-gradient(to top, rgb(87, 22, 22, .65), rgb(193, 95, 105, .4), rgb(247, 160, 236, .25));
+}
+#gameTitle{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    z-index: 10;
+    line-height: 0.8;
+}
+#overlayScreen{
+    opacity: 0;
+    background-color: black;
+    z-index: -1;
+}
+#startButtons{
+    opacity: 0;
+}
+#startButton{
+    color: gray;
+}
+#pButton:hover, #howToButton:hover{
+    transform: scale(110%);
+}

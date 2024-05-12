@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@200;300;400;500;600;700&family=Stardos+Stencil:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" integrity="sha512-wnea99uKIC3TJF7v4eKk4Y+lMz2Mklv18+r4na2Gn1abDRPPOeef95xTzdwGD9e6zXJBteMIhZ1+68QC5byJZw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="edpCSS.css">
+    <title>Game Of The Generals</title>
+</head>
+<body>
+    <div class="absolute h-screen w-screen" style="background-image: linear-gradient(to top right, #2d3e2f, #84bc8a, #d6f0a0);z-index: -2"></div>
+    <div class="absolute h-screen w-screen opacity-25" style="background-image: url('EDP_Assets/Camo_Texture.png');z-index: -1"></div>
+    <div class="absolute z-50">
+        <div class="flex items-center justify-center h-screen w-screen hidden" id="popup">
+            <div class="flex flex-col justify-center items-center h-full w-full hidden" id="difficultyScreen">
+                <div class="flex justify-center items-center h-2/3 w-3/5 mb-12">
+                    <div class="flex flex-col justify-center items-center text-center mr-4 p-2 h-full width-45 border-custom-20 border-green bg-center cursor-pointer transform transition duration-300 ease-in-out hover:scale-105" style="background-image: url('EDP_Assets/Doodle-Texture-Test.png')" id="easyCard">
+                        <div class="font-stardos-stencil font-bold text-5xl leading-none">
+                            'Lil Private
+                        </div>
+                        <div class="italic font-semibold text-xl px-6">
+                            Easy Mode
+                        </div>
+                        <ul class="w-2/3 mt-6 leading-tight text-left text-md list-disc">
+                            <li class="mb-2">Players have the option to reveal eliminated pieces</li>
+                            <li>Each move has a 90-second timer</li>
+                        </ul>
+                        <div class="h-full w-full absolute card-clickable"></div>
+                        <a href="edpProjectGameCapture.html" class="hidden" id="easyPage"></a>
+                    </div>
+                    <div class="flex flex-col justify-center items-center text-center ml-4 p-2 h-full width-45 border-custom-20 border-green bg-center cursor-pointer transform transition duration-300 ease-in-out hover:scale-105" style="background-image: url('EDP_Assets/Doodle-Texture-Test.png')" id="hardCard">
+                        <div class="font-stardos-stencil font-bold text-5xl leading-none">
+                            Gigachad General
+                        </div>
+                        <div class="italic font-semibold text-xl px-6">
+                            Hard Mode
+                        </div>
+                        <ul class="w-2/3 mt-6 leading-tight text-left text-md list-disc">
+                            <li class="mb-2">Players cannot reveal eliminated pieces</li>
+                            <li>Each move has a 45-second timer</li>
+                        </ul>
+                        <div class="h-full w-full absolute card-clickable"></div>
+                        <a href="edpProjectGameCapture.html" class="hidden" id="hardPage"></a>
+                    </div>
+                </div>
+                <div class="flex justify-center m-8 h-1/5 w-3/5 order-first">
+                    <img class="object-contain" src="EDP_Assets/Title_Difficulty.png">
+                </div>
+            </div>  
+            <div class="flex justify-center items-center h-full w-full hidden" id="howToPlayScreen">
+                <div class="flex flex-col items-center text-center text-sm p-2 h-3/4 w-3/5 border-custom-20 border-green bg-center transform transition duration-300 ease-in-out" style="background-image: url('EDP_Assets/Doodle-Texture-Test.png')">
+                    <div class="top-0 w-1/4 mb-2">
+                        <img class="object-contain" src="EDP_Assets/Title_HowTo.png">
+                    </div>
+                    <div class="flex justify-center items-center gap-4 w-5/6 mb-2">
+                        <button class="h-8 w-36 px-1 rounded-full bg-custom-green1" id="htpEquipment" onclick="changeHowToPlayContent(this.id)">Equipment</button>
+                        <button class="h-8 w-36 px-1 rounded-full bg-custom-green1" id="htpBasicGP" onclick="changeHowToPlayContent(this.id)">Basic Gameplay</button>
+                        <button class="h-8 w-36 px-1 rounded-full bg-custom-green1" id="htpWinCon" onclick="changeHowToPlayContent(this.id)" style="background-color: #84bc8a;color: white">Win Condition</button>
+                    </div>
+                    <div class="overflow-y-auto w-full text-lg text-justify m-1 p-4" id="howToPlayContent">
+                        <h1 class="text-3xl font-stardos-stencil font-bold">How To Win</h1>
+                        <p>
+                            The objective of the game is to eliminate or capture the flag of
+                            the opponent, or to maneuver one's flag to the far edge of the 
+                            board. More specifically:
+                        </p>
+                        <ul class="leading-tight text-md list-disc mt-4 ml-4">
+                            <li class="mb-2">If you eliminate the opposing flag using any piece <span class="italic">(including your own flag)</span></li>
+                            <li class="mb-2">
+                                If you maneuver your flag to the opposite side of the board and survivng a turn without 
+                                being challenged or without any adjacent opposing pieces
+                            </li>
+                            <li>If your opponent chooses to resign due to being cornered or a lack of possible winning moves</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="absolute h-full w-full transition duration-500 ease-in-out" id="overlayScreen"></div>
+    <div class="flex flex-col justify-center items-center h-screen transition duration-500 ease-in-out">
+        <div class="flex justify-center items-center m-2 relative w-3/5 ">
+            <img class="transition duration-300 ease-in-out object-contain" src="EDP_Assets/Title_V2.png" id="gameTitle">
+        </div>
+        <div class="absolute h-1/5 w-3/5 m-2 transition duration-300 ease-in-out" id="startButtons">
+            <div class="flex items-center justify-center h-full">
+                <div class="flex justify-center items-center h-full w-full transition duration-300 ease-in-out relative cursor-pointer m-2" id="pButton" onclick="dropChoices(this)">
+                    <div class="font-stardos-stencil font-bold text-2xl -mb-1">New Game</div>
+                    <img class="absolute top-0 left-0 w-full h-full object-contain" src="EDP_Assets/Title_BG_V2.png" style="z-index: -1">
+                </div>
+                <div class="flex justify-center items-center h-full w-full transition duration-300 ease-in-out relative cursor-pointer m-2" id="howToButton" onclick="howToPlay()">
+                    <div class="font-stardos-stencil font-bold text-2xl -mb-1">How To Play</div>
+                    <img class="absolute top-0 left-0 w-full h-full object-contain" src="EDP_Assets/Title_BG_V2.png" style="z-index: -1">
+                </div>
+            </div>
+            <div class="flex justify-center items-center h-full w-full transition duration-300 ease-in-out hidden" style="opacity: 0; transform: translateY(-40px)" id="dropDownModes">
+                <div class="flex flex-col justify-center items-center h-2/3 w-1/2 m-2">
+                    <div class="flex flex-col gap-2 justify-around items-center w-3/5 relative p-2">
+                        <div class="w-3/5 relative cursor-pointer p-1 bg-custom-green1 rounded-full transform transition duration-300 ease-in-out hover:scale-105" id="sButton" onclick="play('singleplayer')">
+                            <p class="font-bold text-sm text-center">Singleplayer</p>
+                        </div>
+                        <div class="w-3/5 relative cursor-pointer p-1 bg-custom-green1 rounded-full transform transition duration-300 ease-in-out hover:scale-105" id="sButton" onclick="play('multiplayer')">
+                            <p class="font-bold text-sm text-center">Local Co-op</p>
+                        </div>
+                    </div>
+                    <div class="absolute h-2/3 w-1/4 rounded-lg" style=" background-image: url(EDP_Assets/Doodle-Texture-Test.png);background-size: 50%;background-position: center center;z-index: -1"></div>
+                </div>
+                <div class="flex flex-col justify-center items-center h-full w-1/2 m-2"></div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    document.getElementById("gameTitle").addEventListener('mouseenter', revealPlay);
+    var p1, p2;
+    var gameMode;
+    var difficulty;
+    var gameRecord = Array.from(localStorage.getItem('gameRecord') ? JSON.parse(localStorage.getItem('gameRecord')) : []);
+
+    function revealPlay(){
+        let a = document.getElementById("startButtons");
+        let b = document.querySelector('img[id="gameTitle"]');
+        a.style.opacity = 1;
+        a.style.transform = 'translateY(60px)';
+        b.style.transform = 'translateY(-200px) scale(80%)';
+    }
+
+    function dropChoices(div){
+        div.onclick = null;
+        let a = document.getElementById("dropDownModes");
+        a.className = a.className.replace(/(?:^|\s)hidden(?!\S)/g , '');
+        setTimeout(function(){
+            a.style.opacity = 1;
+            a.style.transform = `translateY(0px)`;
+        }, 100);
+
+        let x = function(){
+            let childA = document.querySelector('div[id=dropDownModes]').firstElementChild.firstElementChild;
+            
+            if(!childA.contains(event.target)){
+                a.style.opacity = 0;
+                a.style.transform = `translateY(-60px)`;
+                setTimeout(function(){
+                    a.classList.add("hidden");
+                    document.removeEventListener("click", x);
+                    div.onclick = function(){
+                        dropChoices(this);
+                    };
+                }, 200);
+            }
+        }
+        setTimeout(function(){
+            document.addEventListener("click", x);
+        }, 500);
+    }
+
+    function play(gMode){
+        let a = document.getElementById("popup");
+        blurScreen();
+        a.className = a.className.replace(/(?:^|\s)hidden(?!\S)/g , '');
+        displayDifficulty();
+        gameMode = gMode;
+    }
+
+    function howToPlay(){
+        let a = document.getElementById("popup");
+        blurScreen();
+        a.className = a.className.replace(/(?:^|\s)hidden(?!\S)/g , '');
+        displayHowTo();
+    }
+
+    function blurScreen(){
+        let a = document.getElementById("overlayScreen");
+        let b = a.nextElementSibling;
+        a.style.opacity = .7;
+        a.style.zIndex = 20;
+        b.classList.add("blur-screen");
+    }
+
+    function displayDifficulty(){
+        let a = document.getElementById("difficultyScreen");
+        a.className = a.className.replace(/(?:^|\s)hidden(?!\S)/g , '');
+        let x = function(event){
+            let childA = document.querySelector('div[id=difficultyScreen]').firstElementChild.firstElementChild;
+            let childB = childA.nextElementSibling;
+
+            if(childA.contains(event.target)){
+                difficulty = "easy";
+                backMainScreen();
+                setTimeout(function(){
+                    gameRecord.push({player1: p1, player2: p2, gMode: gameMode, dfclty: difficulty});
+                    localStorage.setItem("gameRecord",JSON.stringify(gameRecord));
+                    loadGame(childA.lastElementChild);
+                }, 3000);
+            }else if(childB.contains(event.target)){
+                difficulty = "hard";
+                backMainScreen();
+                setTimeout(function(){
+                    gameRecord.push({player1: p1, player2: p2, gMode: gameMode, dfclty: difficulty});
+                    localStorage.setItem("gameRecord",JSON.stringify(gameRecord));
+                    loadGame(childB.lastElementChild);
+                }, 3000);
+            }else{  
+                backMainScreen();
+                document.removeEventListener("click", x);
+            }
+        };
+        setTimeout(function(){
+           document.addEventListener("click", x);
+        }, 500);
+    }
+
+    function displayHowTo(){
+        let a = document.getElementById("howToPlayScreen");
+        a.className = a.className.replace(/(?:^|\s)hidden(?!\S)/g , '');
+        let x = function(event){
+            let childA = document.querySelector('div[id=howToPlayScreen]').firstElementChild;
+
+            if(!childA.contains(event.target)){
+                backMainScreen();
+                document.removeEventListener("click", x);
+            }
+        };
+        setTimeout(function(){
+            document.addEventListener("click", x);
+        }, 500);
+
+    }
+
+    function changeHowToPlayContent(type){
+        let a = type;
+        let b = document.getElementById("howToPlayContent");
+        let c = document.getElementById(type);
+        if(type != "htpWinCon"){
+            document.getElementById("htpWinCon").style.backgroundColor = "rgb(214, 240, 160)";
+            document.getElementById("htpWinCon").style.color = "black";
+        }
+        if (typeof previousButton !== "undefined") {
+            previousButton.style.backgroundColor = "rgb(214, 240, 160)";
+            previousButton.style.color = "black";
+        }
+        setTimeout(function(){
+            c.style.backgroundColor = "#84bc8a";
+            c.style.color = "white";
+            previousButton = c;
+        }, 100);
+        switch (a){
+            case "htpEquipment":
+                b.innerHTML = `
+                    <h1 class="text-3xl font-stardos-stencil font-bold">Pieces</h1>
+                    <p>
+                        The player's set of pieces represent 21 combatants with a hierarchy of ranks and 
+                        functions. A higher-ranking piece will eliminate any lower-ranking piece, 
+                        with the exception of the Spies that eliminate all pieces except the Privates.
+                    </p><br>
+                    <div class="flex justify-center w-full">
+                        <div class="grid grid-cols-5 grid-rows-3 w-3/4 items-start gap-4">
+                            <div class="h-20 w-32 flex flex-col items-center">
+                                <img class="h-12 w-12" src="EDP_Assets/Green_ArmyGen.png">
+                                <p class="font-bold text-xs text-center tracking-tight my-2">1 General of <br> the Army</p>
+                            </div>
+                            <div class="h-20 w-32 flex flex-col items-center">
+                                <img class="h-12 w-12" src="EDP_Assets/Green_General.png">
+                                <p class="font-bold text-xs text-center tracking-tight my-2">1 General</p>
+                            </div>
+                            <div class="h-20 w-32 flex flex-col items-center">
+                                <img class="h-12 w-12" src="EDP_Assets/Green_LieutGen.png">
+                                <p class="font-bold text-xs text-center tracking-tight my-2">1 Lieutenant <br> General</p>
+                            </div>
+                            <div class="h-20 w-32 flex flex-col items-center">
+                                <img class="h-12 w-12" src="EDP_Assets/Green_MajorGen.png">
+                                <p class="font-bold text-xs text-center tracking-tight my-2">1 Major General</p>
+                            </div>
+                            <div class="h-20 w-32 flex flex-col items-center">
+                                <img class="h-12 w-12" src="EDP_Assets/Green_BrigGen.png">
+                                <p class="font-bold text-xs text-center tracking-tight my-2">1 Brigadier <br> General</p>
+                            </div>
+                            <div class="h-20 w-32 flex flex-col items-center">
+                                <img class="h-12" src="EDP_Assets/Green_Colonel.png">
+                                <p class="font-bold text-xs text-center tracking-tight my-2">1 Colonel</p>
+                            </div>
+                            <div class="h-20 w-32 flex flex-col items-center">
+                                <img class="h-12 w-12" src="EDP_Assets/Green_LieutCol.png">
+                                <p class="font-bold text-xs text-center tracking-tight my-2">1 Lieutenant Colonel</p>
+                            </div>
+                            <div class="h-20 w-32 flex flex-col items-center">
+                                <img class="h-12 w-12" src="EDP_Assets/Green_Major.png">
+                                <p class="font-bold text-xs text-center tracking-tight my-2">1 Major</p>
+                            </div>
+                            <div class="h-20 w-32 flex flex-col items-center">
+                                <img class="h-12 w-12" src="EDP_Assets/Green_Captain.png">
+                                <p class="font-bold text-xs text-center tracking-tight my-2">1 Captain</p>
+                            </div>
+                            <div class="h-20 w-32 flex flex-col items-center">
+                                <img class="h-12 w-12" src="EDP_Assets/Green_Lieut1.png">
+                                <p class="font-bold text-xs text-center tracking-tight my-2">1 1st Lieutenant</p>
+                            </div>
+                            <div class="h-20 w-32 flex flex-col items-center">
+                                <img class="h-12 w-12" src="EDP_Assets/Green_Lieut2.png">
+                                <p class="font-bold text-xs text-center tracking-tight my-2">1 2nd Lieutenant</p>
+                            </div>
+                            <div class="h-20 w-32 flex flex-col items-center">
+                                <img class="h-12 w-12" src="EDP_Assets/Green_Sergeant.png">
+                                <p class="font-bold text-xs text-center tracking-tight my-2">1 Sergeant</p>
+                            </div>
+                            <div class="h-20 w-32 flex flex-col items-center">
+                                <img class="h-12" src="EDP_Assets/Green_Private.png">
+                                <p class="font-bold text-xs text-center tracking-tight my-2">6 Privates</p>
+                            </div>
+                            <div class="h-20 w-32 flex flex-col items-center">
+                                <img class="h-12 w-12" src="EDP_Assets/Green_Spy.png">
+                                <p class="font-bold text-xs text-center tracking-tight my-2">2 Spies</p>
+                            </div>
+                            <div class="h-20 w-32 flex flex-col items-center">
+                                <img class="h-12 w-12" src="EDP_Assets/Green_Flag.png">
+                                <p class="font-bold text-xs text-center tracking-tight my-2">1 Flag</p>
+                            </div>
+                        </div>
+                    </div><br>
+                    <h1 class="text-3xl font-stardos-stencil font-bold">Board</h1>
+                    <p>
+                        The game is played on a rectangular board with 72 plain squares arranged 
+                        in 8 ranks and 9 files.  Each player's 21 pieces are placed in various 
+                        locations within the nearest 3 rows to each player's home side, leaving 
+                        6 squares open. The two middle rows are initially empty at the start of 
+                        the game.
+                    </p><br>
+                    <div class="flex justify-center items-center w-full">
+                        <div class="grid grid-cols-9 grid-rows-8 border-2 border-gray-600">
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                            <div class="flex items-center justify-center border border-gray-400 bg-white h-8 w-8 p-2"></div>
+                        </div>
+                    </div>
+                `;
+                break;
+            case "htpBasicGP":
+                b.innerHTML = `
+                    <h1 class="text-3xl font-stardos-stencil font-bold">Setup</h1>
+                    <p>
+                        Each player takes the set of pieces matching their side of the gameboard. 
+                        The players place their pieces in any order in the first three rows on their 
+                        side of the board. After all of the pieces have been arranged there should 
+                        be six empty spaces.
+                    </p><br>
+                    <h1 class="text-3xl font-stardos-stencil font-bold">Movement</h1>
+                    <p>
+                        There is no predetermined order of play. The players can decide who 
+                        goes first; afterward, the players take their turns alternately. Each 
+                        player can move only one piece per turn. On a player’s turn they will 
+                        move one of their pieces forward, backward, left or right. A piece 
+                        cannot be moved onto a space where the player already has a piece. 
+                        When a piece is moved onto a space occupied by an opponent’s piece,
+                        a challenge will occur.
+                    </p><br>
+                    <h1 class="text-3xl font-stardos-stencil font-bold">Challenge</h1>
+                    <p>                        
+                        In a battle you will compare the ranks of the two pieces to see which one 
+                        wins the challenge. In most cases the lower ranked piece will be removed from the board.
+                    </p><br>
+                    <div class="flex justify-center gap-4">
+                        <img class="h-12 w-12" src="EDP_Assets/Blue_ArmyGen.png">
+                        <img class="h-12 w-12" src="EDP_Assets/Red_MajorGen.png">
+                    </div>
+                    <p class="font-bold text-sm text-center tracking-tight my-2">The Blue General of the Army beats the Red Major General</p><br>
+                    <p>
+                        If both pieces have the same rank, both pieces will be removed.
+                    </p><br>
+                    <div class="flex justify-center gap-4">
+                        <img class="h-12" src="EDP_Assets/Blue_Colonel.png">
+                        <img class="h-12" src="EDP_Assets/Red_Colonel.png">
+                    </div>
+                    <p class="font-bold text-sm text-center tracking-tight my-2">The Blue & Red Colonels beat each other</p><br>
+                    <p>
+                        The spy will beat any piece ranked higher than a private.
+                    </p><br>
+                    <div class="flex justify-center gap-4">
+                        <img class="h-12 w-12" src="EDP_Assets/Red_Spy.png">
+                        <img class="h-12 w-12" src="EDP_Assets/Blue_ArmyGen.png">
+                    </div>
+                    <p class="font-bold text-sm text-center tracking-tight my-2">The Red Spy beats the Blue General of the Army</p><br>
+                    <p>
+                        The private is the only piece that can beat the spy.
+                    </p><br>
+                    <div class="flex justify-center gap-4">
+                        <img class="h-12 object-contain" src="EDP_Assets/Blue_Private.png">
+                        <img class="h-12 w-12" src="EDP_Assets/Red_Spy.png">
+                    </div>
+                    <p class="font-bold text-sm text-center tracking-tight my-2">The Blue Private beats the Red Spy</p><br>
+                    <p>
+                        The flag can be captured by any piece. The only piece a 
+                        flag can capture is the other player’s flag. If a flag 
+                        challenges the opponent's flag, the challenging flag 
+                        prevails and wins the game.
+                    </p><br>
+                    <div class="flex justify-center gap-4">
+                        <img class="h-12 object-contain" src="EDP_Assets/Red_Flag.png">
+                        <img class="h-12 w-12" src="EDP_Assets/Blue_Flag.png">
+                    </div>
+                    <p class="font-bold text-sm text-center tracking-tight my-2">The Red Flag beats the Blue Flag</p><br>
+                `;
+                break;
+            case "htpWinCon":
+                b.innerHTML = `
+                    <h1 class="text-3xl font-stardos-stencil font-bold">How To Win</h1>
+                    <p>
+                        The objective of the game is to eliminate or capture the flag of
+                        the opponent, or to maneuver one's flag to the far edge of the 
+                        board. More specifically:
+                    </p>
+                    <ul class="leading-tight text-md list-disc mt-4 ml-4">
+                        <li class="mb-2">If you eliminate the opposing flag using any piece <span class="italic">(including your own flag)</span></li>
+                        <li class="mb-2">
+                            If you maneuver your flag to the opposite side of the board and surviving a turn without 
+                            being challenged or without any adjacent opposing pieces
+                        </li>
+                        <li>If your opponent chooses to resign due to being cornered or a lack of possible winning moves</li>
+                    </ul>
+                `;
+                break;
+        }
+    }
+
+    function backMainScreen(){
+        let a = document.getElementById("popup");
+        let b = document.getElementById("overlayScreen");
+        let c = b.nextElementSibling;
+        let d = document.getElementById("difficultyScreen");
+        let e = document.getElementById("howToPlayScreen");
+
+        a.classList.add("hidden");
+        b.style.opacity = 0;
+        b.style.zIndex = -1;
+        c.className = c.className.replace(/(?:^|\s)blur-screen(?!\S)/g , '');
+        d.classList.add("hidden");
+        e.classList.add("hidden");
+    }
+
+    function loadGame(myDiv){
+        myDiv.click();
+    }
+</script>
+</html>

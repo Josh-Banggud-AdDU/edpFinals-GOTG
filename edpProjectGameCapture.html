@@ -1,0 +1,3074 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@200;300;400;500;600;700&family=Stardos+Stencil:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" integrity="sha512-wnea99uKIC3TJF7v4eKk4Y+lMz2Mklv18+r4na2Gn1abDRPPOeef95xTzdwGD9e6zXJBteMIhZ1+68QC5byJZw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="edpCSS.css">
+    <script src="https://cdn.jsdelivr.net/npm/confetti-js/dist/index.min.js"></script>
+    <title>Game Of The Generals</title>
+</head>
+<body>
+    <canvas id="confetti-canvas" class="absolute w-screen h-screen fixed" style="pointer-events: none;"></canvas>
+    <div class="absolute h-screen w-screen opacity-0" style="background-image: linear-gradient(to top right, #2d3e2f, #84bc8a, #d6f0a0);z-index: -1"></div>
+    <div class="absolute h-screen w-screen" style="background-image: url('EDP_Assets/Doodle-Texture-Test.png');z-index: -2"></div>
+    <div class="absolute z-50">
+        <div class="flex items-center justify-center h-screen w-screen hidden" id="popup">
+            <div class="flex justify-center items-center h-2/5 w-1/2 hidden" id="nameScreen">
+                <div class="flex flex-col justify-center items-center text-center mr-4 p-4 h-full w-full border-custom-20 border-green bg-center rounded-2xl" style="background-image: url('EDP_Assets/Doodle-Texture-Test.png')">
+                    <div class="font-stardos-stencil font-bold text-4xl">
+                        Usernames
+                    </div>
+                    <div class="italic font-bold text-sm px-6">
+                        Enter your names strategists!
+                    </div>
+                    <div class="flex justify-between items-center w-5/6 mt-6">
+                        <label class="mr-2">Player 1: </label>
+                        <input type="text" id="p1Name" value="" maxlength="25" class="w-5/6 border border-gray-400 rounded-lg shadow-inner px-2 py-1 font-stardos-stencil font-bold uppercase" placeholder="Dominic">
+                    </div>
+                    <div class="flex justify-between items-center w-5/6 mt-2">
+                        <label class="mr-2">Player 2: </label>
+                        <input type="text" id="p2Name" value="" maxlength="25" class="w-5/6 border border-gray-400 rounded-lg shadow-inner px-2 py-1 font-stardos-stencil font-bold uppercase" placeholder="Ethan">
+                    </div>
+                    <input type="button" id="startButton" value="Start!" disabled class="mt-2 w-32 h-14 border rounded-full text-lg transform transition duration-300 ease-out">
+                </div>
+            </div>
+            <div class="flex justify-center items-center hidden" id="moveHistoryScreen">
+                <div id="displayGrid" class="grid grid-cols-9 grid-rows-8 bg-white border-custom-20 border-green">
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h1"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h2"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h3"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h4"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h5"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h6"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h7"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h8"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h9"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h10"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h11"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h12"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h13"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h14"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h15"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h16"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h17"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h18"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h19"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h20"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h21"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h22"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h23"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h24"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h25"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h26"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h27"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h28"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h29"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h30"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h31"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h32"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h33"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h34"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h35"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h36"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h37"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h38"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h39"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h40"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h41"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h42"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h43"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h44"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h45"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h46"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h47"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h48"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h49"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h50"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h51"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h52"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h53"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h54"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h55"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h56"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h57"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h58"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h59"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h60"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h61"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h62"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h63"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h64"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h65"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h66"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h67"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h68"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h69"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h70"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h71"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h72"></div>
+                </div>
+            </div>
+            <div class="h-1/3 w-1/3 hidden" id="endGameScreen">
+                <div class="flex flex-col justify-center items-center text-center mr-4 p-4 h-full w-full border-custom-20 border-green bg-center rounded-2xl" style="background-image: url('EDP_Assets/Doodle-Texture-Test.png')">
+                    <div class="font-stardos-stencil font-bold text-6xl">
+                        <p id="winnerText"></p>
+                    </div>
+                    <div class="italic font-bold text-lg px-6">
+                        <p id="winnerSubText"></p>
+                    </div>
+                    <a href="edpProject.html" class="hidden" id="homePage"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="absolute h-full w-full transition duration-500 ease-in-out" id="overlayScreen"></div>
+    <div class="flex items-center justify-center h-screen w-screen">
+        <div id="main" class="flex flex-col items-center justify-center h-full w-full">
+            <div id="header" class="flex items-center justify-between height-12-5 w-full px-10">
+                <div id="indicators" class="width-27-5 flex items-center justify-between text-md text-center mt-2"></div>
+                <div class="width-45 p-1 mt-2" id="gameTitle">
+                    <img class="object-contain transition duration-300 ease-in-out" src="EDP_Assets/Title_V2.png" id="gameTitle">
+                </div>
+                <div class="width-27-5 flex items-center justify-between text-lg text-center mt-2">
+                    <div>
+                        Time: <span id="timer">0:00</span>
+                    </div>
+                    <button id="placePieceButton" class="rounded-full bg-custom-green1 w-auto text-lg h-12 py-2 px-8 m-5" onclick="placePieces();">Place Pieces</button>
+                    <button id="randomizeButton" class="flex items-center justify-center h-10 w-10 font-bold rounded-full border-2 bg-white" onclick="random()">
+                        <i class="fa-solid fa-random"></i>
+                    </button>
+                    <button id="resetButton" onclick="reset()" class="flex items-center justify-center h-10 w-10 font-bold rounded-full border-2 bg-white">
+                        <i class="fa-solid fa-rotate-left"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="w-full">
+                <hr class="w-full mt-1">
+            </div>
+            <div id="mainArea" class="flex items-center justify-center height-87-5 w-full bg-white">
+                <div class="flex flex-col items-center justify-center h-full w-4/5">
+                    <div class="flex justify-center items center h-1/6 w-full m-2 p-2">
+                        <div id="blueCapture" class="flex items-center justify-center p-2" ></div>
+                    </div>
+                    <div class="flex justify-center items-center h-4/6 w-full">
+                        <div id="bluePieces" class="grid grid-cols-3 grid-rows-7 m-10">
+                            <div class="bluePieces flex items-center justify-center h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)"id="b1"><span id="bluePrivate" ondrop="dropSpan(event)" class="blue piece text-blue-600"><img id="bluePiece" src="EDP_Assets/Blue_Private.png" draggable="false"/></span></div>
+                            <div class="bluePieces flex items-center justify-center h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)"id="b2"><span id="bluePrivate" ondrop="dropSpan(event)" class="blue piece text-blue-600"><img id="bluePiece" src="EDP_Assets/Blue_Private.png" draggable="false"/></span></div>
+                            <div class="bluePieces flex items-center justify-center h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)"id="b3"><span id="bluePrivate" ondrop="dropSpan(event)" class="blue piece text-blue-600"><img id="bluePiece" src="EDP_Assets/Blue_Private.png" draggable="false"/></span></div>
+                            <div class="bluePieces flex items-center justify-center h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)"id="b4"><span id="bluePrivate" ondrop="dropSpan(event)" class="blue piece text-blue-600"><img id="bluePiece" src="EDP_Assets/Blue_Private.png" draggable="false"/></span></div>
+                            <div class="bluePieces flex items-center justify-center h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)"id="b5"><span id="bluePrivate" ondrop="dropSpan(event)" class="blue piece text-blue-600"><img id="bluePiece" src="EDP_Assets/Blue_Private.png" draggable="false"/></span></div>
+                            <div class="bluePieces flex items-center justify-center h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)"id="b6"><span id="bluePrivate" ondrop="dropSpan(event)" class="blue piece text-blue-600"><img id="bluePiece" src="EDP_Assets/Blue_Private.png" draggable="false"/></span></div>
+                            <div class="bluePieces flex items-center justify-center h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)"id="b7"><span id="blueSpy" ondrop="dropSpan(event)" class="blue piece text-blue-600"><img id="bluePiece" src="EDP_Assets/Blue_Spy.png" draggable="false"/></span></div>
+                            <div class="bluePieces flex items-center justify-center h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)"id="b8"><span id="blueSpy" ondrop="dropSpan(event)" class="blue piece text-blue-600"><img id="bluePiece" src="EDP_Assets/Blue_Spy.png" draggable="false"/></span></div>
+                            <div class="bluePieces flex items-center justify-center h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)"id="b9"><span id="blueSergeant" ondrop="dropSpan(event)" class="blue piece text-blue-600"><img id="bluePiece" src="EDP_Assets/Blue_Sergeant.png" draggable="false"/></span></div>
+                            <div class="bluePieces flex items-center justify-center h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)"id="b10"><span id="blue2LT" ondrop="dropSpan(event)" class="blue piece text-blue-600"><img id="bluePiece" src="EDP_Assets/Blue_Lieut2.png" draggable="false"/></span></div>
+                            <div class="bluePieces flex items-center justify-center h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)"id="b11"><span id="blue1LT" ondrop="dropSpan(event)" class="blue piece text-blue-600"><img id="bluePiece" src="EDP_Assets/Blue_Lieut1.png" draggable="false"/></span></div>
+                            <div class="bluePieces flex items-center justify-center h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)"id="b12"><span id="blueCaptain" ondrop="dropSpan(event)" class="blue piece text-blue-600"><img id="bluePiece" src="EDP_Assets/Blue_Captain.png" draggable="false"/></span></div>
+                            <div class="bluePieces flex items-center justify-center h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)"id="b13"><span id="blueMajor" ondrop="dropSpan(event)" class="blue piece text-blue-600"><img id="bluePiece" src="EDP_Assets/Blue_Major.png" draggable="false"/></span></div>
+                            <div class="bluePieces flex items-center justify-center h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)"id="b14"><span id="blueLTCol" ondrop="dropSpan(event)" class="blue piece text-blue-600"><img id="bluePiece" src="EDP_Assets/Blue_LieutCol.png" draggable="false"/></span></div>
+                            <div class="bluePieces flex items-center justify-center h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)"id="b15"><span id="blueCol" ondrop="dropSpan(event)" class="blue piece text-blue-600"><img id="bluePiece" src="EDP_Assets/Blue_Colonel.png" draggable="false"/></span></div>
+                            <div class="bluePieces flex items-center justify-center h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)"id="b16"><span id="blue1Star" ondrop="dropSpan(event)" class="blue piece text-blue-600"><img id="bluePiece" src="EDP_Assets/Blue_BrigGen.png" draggable="false"/></span></div>
+                            <div class="bluePieces flex items-center justify-center h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)"id="b17"><span id="blue2Star" ondrop="dropSpan(event)" class="blue piece text-blue-600"><img id="bluePiece" src="EDP_Assets/Blue_MajorGen.png" draggable="false"/></span></div>
+                            <div class="bluePieces flex items-center justify-center h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)"id="b18"><span id="blue3Star" ondrop="dropSpan(event)" class="blue piece text-blue-600"><img id="bluePiece" src="EDP_Assets/Blue_LieutGen.png" draggable="false"/></span></div>
+                            <div class="bluePieces flex items-center justify-center h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)"id="b19"><span id="blue4Star" ondrop="dropSpan(event)" class="blue piece text-blue-600"><img id="bluePiece" src="EDP_Assets/Blue_General.png" draggable="false"/></span></div>
+                            <div class="bluePieces flex items-center justify-center h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)"id="b20"><span id="blue5Star" ondrop="dropSpan(event)" class="blue piece text-blue-600"><img id="bluePiece" src="EDP_Assets/Blue_ArmyGen.png" draggable="false"/></span></div>
+                            <div class="bluePieces flex items-center justify-center h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)"id="b21"><span id="blueFlag" ondrop="dropSpan(event)" class="blue piece text-blue-600"><img id="bluePiece" src="EDP_Assets/Blue_Flag.png" draggable="false"/></span></div>
+                        </div>
+                        <div class="block">
+                            <div id="grid" class="grid grid-cols-9 grid-rows-8 border-custom-10 border-green">
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="1"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="2"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="3"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="4"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="5"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="6"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="7"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="8"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="9"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="10"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="11"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="12"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="13"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="14"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="15"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="16"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="17"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="18"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="19"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="20"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="21"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="22"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="23"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="24"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="25"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="26"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="27"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="28"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="29"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="30"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="31"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="32"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="33"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="34"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="35"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="36"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="37"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="38"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="39"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="40"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="41"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="42"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="43"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="44"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="45"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="46"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="47"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="48"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="49"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="50"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="51"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="52"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="53"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="54"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="55"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="56"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="57"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="58"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="59"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="60"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="61"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="62"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="63"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="64"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="65"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="66"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="67"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="68"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="69"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="70"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="71"></div>
+                                <div class="position flex items-center justify-center border border-gray-200 h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)" ondrop="dropDiv(event)" ondragover="dragOver(event)" id="72"></div>
+                            </div>
+                        </div>
+                        <div id="redPieces" class="grid grid-cols-3 grid-rows-7 m-10">
+                            <div class="redPieces flex items-center justify-center h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)"id="r1"><span ondrop="dropSpan(event)" id="redPrivate" class="red piece text-red-500"><img id="redPiece" src="EDP_Assets/Red_Private.png" draggable="false"/></span></div>
+                            <div class="redPieces flex items-center justify-center h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)"id="r2"><span ondrop="dropSpan(event)" id="redPrivate" class="red piece text-red-500"><img id="redPiece" src="EDP_Assets/Red_Private.png" draggable="false"/></span></div>
+                            <div class="redPieces flex items-center justify-center h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)"id="r3"><span ondrop="dropSpan(event)" id="redPrivate" class="red piece text-red-500"><img id="redPiece" src="EDP_Assets/Red_Private.png" draggable="false"/></span></div>
+                            <div class="redPieces flex items-center justify-center h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)"id="r4"><span ondrop="dropSpan(event)" id="redPrivate" class="red piece text-red-500"><img id="redPiece" src="EDP_Assets/Red_Private.png" draggable="false"/></span></div>
+                            <div class="redPieces flex items-center justify-center h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)"id="r5"><span ondrop="dropSpan(event)" id="redPrivate" class="red piece text-red-500"><img id="redPiece" src="EDP_Assets/Red_Private.png" draggable="false"/></span></div>
+                            <div class="redPieces flex items-center justify-center h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)"id="r6"><span ondrop="dropSpan(event)" id="redPrivate" class="red piece text-red-500"><img id="redPiece" src="EDP_Assets/Red_Private.png" draggable="false"/></span></div>
+                            <div class="redPieces flex items-center justify-center h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)"id="r7"><span ondrop="dropSpan(event)" id="redSpy"  class="red piece text-red-500"><img id="redPiece" src="EDP_Assets/Red_Spy.png" draggable="false"/></span></div>
+                            <div class="redPieces flex items-center justify-center h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)"id="r8"><span ondrop="dropSpan(event)" id="redSpy"  class="red piece text-red-500"><img id="redPiece" src="EDP_Assets/Red_Spy.png" draggable="false"/></span></div>
+                            <div class="redPieces flex items-center justify-center h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)"id="r9"><span ondrop="dropSpan(event)" id="redSergeant"  class="red piece text-red-500"><img id="redPiece" src="EDP_Assets/Red_Sergeant.png" draggable="false"/></span></div>
+                            <div class="redPieces flex items-center justify-center h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)"id="r10"><span ondrop="dropSpan(event)" id="red2LT"  class="red piece text-red-500"><img id="redPiece" src="EDP_Assets/Red_Lieut2.png" draggable="false"/></span></div>
+                            <div class="redPieces flex items-center justify-center h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)"id="r11"><span ondrop="dropSpan(event)" id="red1LT"  class="red piece text-red-500"><img id="redPiece" src="EDP_Assets/Red_Lieut1.png" draggable="false"/></span></div>
+                            <div class="redPieces flex items-center justify-center h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)"id="r12"><span ondrop="dropSpan(event)" id="redCaptain"  class="red piece text-red-500"><img id="redPiece" src="EDP_Assets/Red_Captain.png" draggable="false"/></span></div>
+                            <div class="redPieces flex items-center justify-center h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)"id="r13"><span ondrop="dropSpan(event)" id="redMajor"  class="red piece text-red-500"><img id="redPiece" src="EDP_Assets/Red_Major.png" draggable="false"/></span></div>
+                            <div class="redPieces flex items-center justify-center h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)"id="r14"><span ondrop="dropSpan(event)" id="redLTCol"  class="red piece text-red-500"><img id="redPiece" src="EDP_Assets/Red_LieutCol.png" draggable="false"/></span></div>
+                            <div class="redPieces flex items-center justify-center h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)"id="r15"><span ondrop="dropSpan(event)" id="redCol"  class="red piece text-red-500"><img id="redPiece" src="EDP_Assets/Red_Colonel.png" draggable="false"/></span></div>
+                            <div class="redPieces flex items-center justify-center h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)"id="r16"><span ondrop="dropSpan(event)" id="red1Star"  class="red piece text-red-500"><img id="redPiece" src="EDP_Assets/Red_BrigGen.png" draggable="false"/></span></div>
+                            <div class="redPieces flex items-center justify-center h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)"id="r17"><span ondrop="dropSpan(event)" id="red2Star"  class="red piece text-red-500"><img id="redPiece" src="EDP_Assets/Red_MajorGen.png" draggable="false"/></span></div>
+                            <div class="redPieces flex items-center justify-center h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)"id="r18"><span ondrop="dropSpan(event)" id="red3Star"  class="red piece text-red-500"><img id="redPiece" src="EDP_Assets/Red_LieutGen.png" draggable="false"/></span></div>
+                            <div class="redPieces flex items-center justify-center h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)"id="r19"><span ondrop="dropSpan(event)" id="red4Star"  class="red piece text-red-500"><img id="redPiece" src="EDP_Assets/Red_General.png" draggable="false"/></span></div>
+                            <div class="redPieces flex items-center justify-center h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)"id="r20"><span ondrop="dropSpan(event)" id="red5Star"  class="red piece text-red-500"><img id="redPiece" src="EDP_Assets/Red_ArmyGen.png" draggable="false"/></span></div>
+                            <div class="redPieces flex items-center justify-center h-12 w-12 p-2" draggable="true" ondragstart="dragStart(event)"id="r21"><span ondrop="dropSpan(event)" id="redFlag"  class="red piece text-red-500"><img id="redPiece" src="EDP_Assets/Red_Flag.png" draggable="false"/></span></div>
+                        </div>
+                    </div>
+                    <div class="flex justify-center items center h-1/6 w-full m-2 p-2">
+                        <div id="redCapture" class="flex items-center justify-center p-2" ></div>
+                    </div>
+                </div>
+                <div class="h-full">
+                    <hr class="h-full border-l">
+                </div>
+                <div class="h-full w-1/5 p-2 text-center">
+                    Move History
+                    <div id="history" class="w-full h-full text-center text-xs overflow-y-auto"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    var p1 = "", p2 = "";
+    var gameMode;
+    var difficulty;
+    var gameRecord = Array.from(localStorage.getItem('gameRecord') ? JSON.parse(localStorage.getItem('gameRecord')) : []);
+
+    var mainBody;
+    var gameEnd = false;
+    var pieceCount = 0;
+    var positionHistory = [];
+    var gameInProgress = false;
+    var redTurn = false;
+    var blueTurn = false;
+    var redPlace = false;
+    var bluePlace = false;
+    var turnEnd = false;
+    var didMove = true;
+    var show = false; //true if easy; false if hard
+    var AI = false; //true if singleplayer; false if multiplayer
+    let a;
+    let seconds = 90; //90 if easy; 45 if hard
+    let intervalId;
+    var prevTargetDiv;
+    var blueFlagInBase = false;
+    var redFlagInBase = false;
+    let winner;
+    const ranks = ["blueFlag", "bluePrivate", "blueSpy", "blueSergeant", "blue2LT", "blue1LT", "blueCaptain", "blueMajor", "blueLTCol", "blueCol", "blue1Star", "blue2Star", "blue3Star", "blue4Star", "blue5Star", "redFlag", "redPrivate", "redSpy", "redSergeant", "red2LT", "red1LT", "redCaptain", "redMajor", "redLTCol", "redCol", "red1Star", "red2Star", "red3Star", "red4Star", "red5Star"]
+    var timerElement = document.getElementById("timer");
+    const redCamp = ["r1","r2","r3","r4","r5","r6","r7","r8","r9","r10","r11","r12","r13","r14","r15","r16","r17","r18","r19","r20","r21"];
+    const blueCamp = ["b1","b2","b3","b4","b5","b6","b7","b8","b9","b10","b11","b12","b13","b14","b15","b16","b17","b18","b19","b20","b21"];
+
+    document.getElementById("startButton").addEventListener("click", startGame);
+
+    window.onload = storeBody; inputUsers();
+
+    function flagInBase(){
+        if(redFlagInBase && redTurn && !turnEnd){
+            end();
+        }
+        else if(blueFlagInBase && blueTurn && !turnEnd){
+            end();
+        }
+    }
+
+    function dropConfetti() {
+        const confettiSettings = {
+            target: 'confetti-canvas',
+            max: 200,
+            size: 1,
+            animate: true,
+            props: ['circle', 'square', 'triangle', 'line'],
+            colors: [[255, 255, 255], [255, 0, 0], [0, 255, 0], [0, 0, 255]],
+            clock: 25
+        };
+
+        const confetti = new ConfettiGenerator(confettiSettings);
+        confetti.render();
+
+        // Stop confetti after 5 seconds
+        setTimeout(() => confetti.clear(), 5000);
+    }
+
+    function inputUsers(){
+        let a = document.getElementById("popup");
+        blurScreen();
+        a.className = a.className.replace(/(?:^|\s)hidden(?!\S)/g , '');
+        let b = document.getElementById("nameScreen");
+        b.className = b.className.replace(/(?:^|\s)hidden(?!\S)/g , '');
+
+        let isSingle = sOrM();
+        
+        if(isSingle == true){
+            p2 = "BOT";
+            document.getElementById("p2Name").value = p2;
+            document.getElementById("p2Name").readOnly = true;
+        }
+
+        document.getElementById("p1Name").addEventListener("input", function(){
+            p1 = document.getElementById("p1Name").value.toUpperCase();
+            checkInputs();
+        });
+        document.getElementById("p2Name").addEventListener("input", function(){
+            p2 = document.getElementById("p2Name").value.toUpperCase();
+            checkInputs();
+        });
+
+        var gameRecord = JSON.parse(localStorage.getItem('gameRecord'));
+        gameMode = gameRecord[0].gMode;
+        difficulty = gameRecord[0].dfclty;
+    }
+
+    function checkInputs(){
+        let start = document.getElementById("startButton");
+        if (p1 !== "" && p2 !== "" && p1 !== null && p2 !== null){
+            if(p1 !== p2){
+                start.disabled = false;
+                start.style.color = "black";
+                start.classList.add("hover:scale-110", "bg-custom-green1");
+                start.classList.remove("border");
+            }else{  
+                start.disabled = true;  
+                start.style.color = "gray";
+                start.classList.add("border");
+                start.classList.remove("hover:scale-110", "bg-custom-green1");
+            }
+        }else{
+            start.disabled = true;
+            start.style.color = "gray";
+            start.classList.add("border");
+            start.classList.remove("hover:scale-110", "bg-custom-green1");
+        }
+    }
+
+    function blurScreen(){
+        let a = document.getElementById("overlayScreen");
+        let b = a.nextElementSibling;
+        a.style.opacity = .7;
+        a.style.zIndex = 20;
+        b.classList.add("blur-screen");
+    }
+
+    function sOrM(){
+        var a = JSON.parse(localStorage.getItem("gameRecord"));
+        if(localStorage.getItem("gameRecord") != null){
+            if(a[0].gMode == "singleplayer"){
+                AI = true;
+                return true;
+            }else if(a[0].gMode == "multiplayer"){
+                AI = false;
+                return false;
+            }
+        }
+    }
+
+    function eOrH(){
+        var a = JSON.parse(localStorage.getItem("gameRecord"));
+        if(localStorage.getItem("gameRecord") != null){
+            if(a[0].dfclty == "easy"){
+                show = true;
+                seconds = 90;
+            }else if(a[0].dfclty == "hard"){
+                show = false;
+                seconds = 45;
+            }
+        }
+    }
+
+    function startGame(){
+        gameRecord.push({player1: p1, player2: p2, gMode: gameMode, dfclty: difficulty});
+        gameRecord.shift();
+        localStorage.setItem('gameRecord', JSON.stringify(gameRecord));
+        eOrH();
+        let a  = document.getElementById("placePieceButton");
+        a.click();
+        backMainScreen();
+    }
+
+    function moveHistory(id){
+        let a = document.getElementById("popup");
+        blurScreen();
+        a.className = a.className.replace(/(?:^|\s)hidden(?!\S)/g , '');
+        displayMoveHistory(id);
+    }
+
+    function endGame(){
+        let a = document.getElementById("popup");
+        blurScreen();
+        a.className = a.className.replace(/(?:^|\s)hidden(?!\S)/g , '');
+        displayEndGameScreen();
+    }
+
+    function blurScreen(){
+        let a = document.getElementById("overlayScreen");
+        let b = a.nextElementSibling;
+        a.style.opacity = .7;
+        a.style.zIndex = 20;
+        b.classList.add("blur-screen");
+    }
+
+    function displayMoveHistory(y){
+        let a = document.getElementById("moveHistoryScreen");
+        a.className = a.className.replace(/(?:^|\s)hidden(?!\S)/g , '');
+        for(let i = 0; i < y.length; i++){
+            charToImg(i, y.charCodeAt(i)-64);
+        }
+        let x = function(event){
+            let childA = document.querySelector('div[id=displayGrid]');
+
+            if(!childA.contains(event.target)){
+                let b = document.getElementById("displayGrid");
+                b.innerHTML = `
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h1"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h2"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h3"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h4"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h5"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h6"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h7"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h8"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h9"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h10"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h11"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h12"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h13"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h14"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h15"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h16"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h17"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h18"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h19"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h20"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h21"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h22"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h23"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h24"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h25"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h26"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h27"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h28"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h29"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h30"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h31"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h32"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h33"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h34"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h35"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h36"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h37"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h38"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h39"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h40"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h41"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h42"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h43"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h44"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h45"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h46"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h47"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h48"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h49"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h50"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h51"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h52"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h53"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h54"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h55"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h56"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h57"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h58"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h59"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h60"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h61"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h62"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h63"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h64"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h65"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h66"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h67"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h68"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h69"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h70"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h71"></div>
+                    <div class="flex items-center justify-center border border-gray-200 h-16 w-16 p-2" id="h72"></div>
+                `;
+                backMainScreen();
+                document.removeEventListener("click", x);
+            }
+        };
+        setTimeout(function(){
+            document.addEventListener("click", x);
+        }, 500);
+
+    }
+
+    function displayEndGameScreen(){
+        let a = document.getElementById("endGameScreen");
+        a.className = a.className.replace(/(?:^|\s)hidden(?!\S)/g , '');
+        let bs = document.getElementById("winnerText");
+        let c = document.getElementById("winnerSubText");
+        gameRecords = JSON.parse(localStorage.getItem("gameRecords"));
+        if(winner == "blueFlag"){
+            bs.innerHTML = "Blue Wins!";
+            c.innerHTML = `Well done General ${gameRecord[0].player1}`;
+        }
+        if(winner == "redFlag"){
+            bs.innerHTML = "Red Wins!";
+            c.innerHTML = `Good job General ${gameRecord[0].player2}`;
+        }
+        let x = function(event){
+            let childA = document.querySelector('div[id=endGameScreen]').firstElementChild;
+
+            if(!childA.contains(event.target)){
+                returnHome();
+                document.removeEventListener("click", x);
+            }
+        };
+        setTimeout(function(){
+            document.addEventListener("click", x);
+        }, 500);
+    }
+
+    function backMainScreen(){
+        let a = document.getElementById("popup");
+        let b = document.getElementById("overlayScreen");
+        let c = b.nextElementSibling;
+        let d = document.getElementById("nameScreen");
+        let e = document.getElementById("endGameScreen");
+
+        a.classList.add("hidden");
+        b.style.opacity = 0;
+        b.style.zIndex = -1;
+        c.className = c.className.replace(/(?:^|\s)blur-screen(?!\S)/g , '');
+        d.classList.add("hidden");
+        e.classList.add("hidden");
+    }
+ 
+    function returnHome(){
+        localStorage.clear();
+        let a = document.getElementById("homePage");
+        a.click();
+    }
+
+    function random(){
+        if(bluePlace){
+            generateBlueField();
+        }
+        if(redPlace){
+            generateRedField();
+        }
+    }
+
+    function moveDiv(x){
+        if (gameEnd){return;}
+        targetDiv = x;
+        
+        const piece = currentDiv.querySelector('.piece');
+        const targetSpan = targetDiv.querySelector('.piece');
+        const currentSpan = currentDiv.querySelector('.piece');
+        var selectedCellID = parseInt(currentDiv.id);
+        var cellToRightID = getCellToRight(selectedCellID);
+        var cellToLeftID = getCellToLeft(selectedCellID);
+        var cellAboveID = getCellAbove(selectedCellID);
+        var cellBelowID = getCellBelow(selectedCellID);
+        const blueGrave = document.getElementById("blueCapture");
+        const redGrave = document.getElementById("redCapture")
+        var possiblePosition = [];
+        possiblePosition.push(cellToRightID);
+        possiblePosition.push(cellToLeftID);
+        possiblePosition.push(cellAboveID);
+        possiblePosition.push(cellBelowID);
+
+        // Move Pieces When Game Has Started (empty div) - red turn
+
+        if (!turnEnd && targetDiv.classList.contains("position") && targetDiv !== currentDiv && possiblePosition.includes(parseInt(targetDiv.id)) && targetDiv.childNodes.length === 0 && gameInProgress && redTurn && piece.classList.contains("red")) {
+            
+            targetDiv.innerHTML = currentDiv.innerHTML;
+            currentDiv.innerHTML = "";
+            turnEnd = true;
+            if(currentSpan.id === "redFlag" && parseInt(targetDiv.id) < 10){
+                let adjacentCells = [];
+                selectedCellID = parseInt(targetDiv.id);
+                cellToRightID = getCellToRight(selectedCellID);
+                cellToLeftID = getCellToLeft(selectedCellID);
+                cellAboveID = getCellAbove(selectedCellID);
+                cellBelowID = getCellBelow(selectedCellID);
+                let down = '';
+                let left = '';
+                let up = '';
+                let right = '';
+                if(cellToRightID){
+                    let right = document.getElementById(cellToRightID);
+                    if(right.childNodes.length !== 0){adjacentCells.push(cellToRightID);}
+                }
+                if(cellToLeftID){
+                    let left = document.getElementById(cellToLeftID);
+                    if(left.childNodes.length !== 0){adjacentCells.push(cellToLeftID);}
+                }
+                if(cellAboveID){
+                    let up = document.getElementById(cellAboveID);
+                    if(up.childNodes.length !== 0){adjacentCells.push(cellAboveID);}
+                }
+                if(cellBelowID){
+                    let down = document.getElementById(cellBelowID);
+                    if(down.childNodes.length !== 0){adjacentCells.push(cellBelowID);}
+                }
+
+                let isEmpty = adjacentCells.filter(cell => cell !== null).length === 0;
+
+                if(isEmpty){
+                    end();
+                    
+                }
+                else{
+                    redFlagInBase = true;
+                }
+            }
+        }
+              
+        // Move Pieces When Game Has Started (capture) - red turn
+
+        else if (!turnEnd && targetDiv.classList.contains("position") && targetDiv !== currentDiv && possiblePosition.includes(parseInt(targetDiv.id)) && gameInProgress && redTurn && !targetSpan.classList.contains("red")) {
+                        
+            if(currentSpan.id === "redFlag"){
+                if(targetSpan.id === "blueFlag"){
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                    end();
+                }
+                else{
+                    blueGrave.innerHTML += currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                    end();
+                }
+            }
+            
+            else if(currentSpan.id === "redPrivate"){
+                if(targetSpan.id === "blueFlag"){
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                    end();
+                }
+                if(targetSpan.id === "bluePrivate"){
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    blueGrave.innerHTML += currentDiv.innerHTML;
+                    targetDiv.innerHTML = "";
+                    currentDiv.innerHTML = "";
+                }
+                else if(targetSpan.id === "blueSpy"){
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+                else{
+                    blueGrave.innerHTML += currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+            }
+
+            else if(currentSpan.id === "redSergeant"){
+                if(targetSpan.id === "blueFlag"){
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                    end();
+                }
+                if(targetSpan.id === "blueSergeant"){
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    blueGrave.innerHTML += currentDiv.innerHTML;
+                    targetDiv.innerHTML = "";
+                    currentDiv.innerHTML = "";
+                }
+                else if(targetSpan.id === "bluePrivate"){
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+                else{
+                    blueGrave.innerHTML += currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+            }
+
+            else if(currentSpan.id === "red2LT"){
+                // flag capture
+                if(targetSpan.id === "blueFlag"){
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                    end();
+                }
+                // tie
+                if(targetSpan.id === "blue2LT"){ 
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    blueGrave.innerHTML += currentDiv.innerHTML;
+                    targetDiv.innerHTML = "";
+                    currentDiv.innerHTML = "";
+                }
+                // capture
+                else if(targetSpan.id === "bluePrivate" || targetSpan.id === "blueSergeant"){
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+                else{
+                    blueGrave.innerHTML += currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+            }
+
+            else if(currentSpan.id === "red1LT"){
+                // flag capture
+                if(targetSpan.id === "blueFlag"){
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                    end();
+                }
+                // tie
+                if(targetSpan.id === "blue1LT"){ 
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    blueGrave.innerHTML += currentDiv.innerHTML;
+                    targetDiv.innerHTML = "";
+                    currentDiv.innerHTML = "";
+                }
+                // capture
+                else if(targetSpan.id === "bluePrivate" || targetSpan.id === "blueSergeant" || targetSpan.id === "blue2LT"){
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+                else{
+                    blueGrave.innerHTML += currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+            }
+
+            else if(currentSpan.id === "redCaptain"){
+                // flag capture
+                if(targetSpan.id === "blueFlag"){
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                    end();
+                }
+                // tie
+                if(targetSpan.id === "blueCaptain"){ 
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    blueGrave.innerHTML += currentDiv.innerHTML;
+                    targetDiv.innerHTML = "";
+                    currentDiv.innerHTML = "";
+                }
+                // capture
+                else if(targetSpan.id === "bluePrivate" || targetSpan.id === "blueSergeant" || targetSpan.id === "blue2LT" || targetSpan.id === "blue1LT"){
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+                else{
+                    blueGrave.innerHTML += currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+            }
+
+            else if(currentSpan.id === "redMajor"){
+                // flag capture
+                if(targetSpan.id === "blueFlag"){
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                    end();
+                }
+                // tie
+                if(targetSpan.id === "blueMajor"){ 
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    blueGrave.innerHTML += currentDiv.innerHTML;
+                    targetDiv.innerHTML = "";
+                    currentDiv.innerHTML = "";
+                }
+                // capture
+                else if(targetSpan.id === "bluePrivate" || targetSpan.id === "blueSergeant" || targetSpan.id === "blue2LT" || targetSpan.id === "blue1LT" || targetSpan.id === "blueCaptain"){
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+                else{
+                    blueGrave.innerHTML += currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+            }
+
+            else if(currentSpan.id === "redLTCol"){
+                // flag capture
+                if(targetSpan.id === "blueFlag"){
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                    end();
+                }
+                // tie
+                if(targetSpan.id === "blueLTCol"){ 
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    blueGrave.innerHTML += currentDiv.innerHTML;
+                    targetDiv.innerHTML = "";
+                    currentDiv.innerHTML = "";
+                }
+                // capture
+                else if(targetSpan.id === "bluePrivate" || targetSpan.id === "blueSergeant" || targetSpan.id === "blue2LT" || targetSpan.id === "blue1LT" || targetSpan.id === "blueCaptain" || targetSpan.id === "blueMajor"){
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+                else{
+                    blueGrave.innerHTML += currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+            }
+
+            else if(currentSpan.id === "redCol"){
+                // flag capture
+                if(targetSpan.id === "blueFlag"){
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                    end();
+                }
+                // tie
+                if(targetSpan.id === "blueCol"){ 
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    blueGrave.innerHTML += currentDiv.innerHTML;
+                    targetDiv.innerHTML = "";
+                    currentDiv.innerHTML = "";
+                }
+                // capture
+                else if(targetSpan.id === "bluePrivate" || targetSpan.id === "blueSergeant" || targetSpan.id === "blue2LT" || targetSpan.id === "blue1LT" || targetSpan.id === "blueCaptain" || targetSpan.id === "blueMajor" || targetSpan.id === "blueLTCol"){
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+                else{
+                    blueGrave.innerHTML += currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+            }
+
+            else if(currentSpan.id === "red1Star"){
+                // flag capture
+                if(targetSpan.id === "blueFlag"){
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                    end();
+                }
+                // tie
+                if(targetSpan.id === "blue1Star"){ 
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    blueGrave.innerHTML += currentDiv.innerHTML;
+                    targetDiv.innerHTML = "";
+                    currentDiv.innerHTML = "";
+                }
+                // capture
+                else if(targetSpan.id === "bluePrivate" || targetSpan.id === "blueSergeant" || targetSpan.id === "blue2LT" || targetSpan.id === "blue1LT" || targetSpan.id === "blueCaptain" || targetSpan.id === "blueMajor" || targetSpan.id === "blueLTCol" || targetSpan.id === "blueCol"){
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+                else{
+                    blueGrave.innerHTML += currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+            }
+
+            else if(currentSpan.id === "red2Star"){
+                // flag capture
+                if(targetSpan.id === "blueFlag"){
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                    end();
+                }
+                // tie
+                if(targetSpan.id === "blue2Star"){ 
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    blueGrave.innerHTML += currentDiv.innerHTML;
+                    targetDiv.innerHTML = "";
+                    currentDiv.innerHTML = "";
+                }
+                // capture
+                else if(targetSpan.id === "bluePrivate" || targetSpan.id === "blueSergeant" || targetSpan.id === "blue2LT" || targetSpan.id === "blue1LT" || targetSpan.id === "blueCaptain" || targetSpan.id === "blueMajor" || targetSpan.id === "blueLTCol" || targetSpan.id === "blueCol" || targetSpan.id === "blue1Star"){
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+                else{
+                    blueGrave.innerHTML += currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+            }
+
+            else if(currentSpan.id === "red3Star"){
+                // flag capture
+                if(targetSpan.id === "blueFlag"){
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                    end();
+                }
+                // tie
+                if(targetSpan.id === "blue3Star"){ 
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    blueGrave.innerHTML += currentDiv.innerHTML;
+                    targetDiv.innerHTML = "";
+                    currentDiv.innerHTML = "";
+                }
+                // capture
+                else if(targetSpan.id === "bluePrivate" || targetSpan.id === "blueSergeant" || targetSpan.id === "blue2LT" || targetSpan.id === "blue1LT" || targetSpan.id === "blueCaptain" || targetSpan.id === "blueMajor" || targetSpan.id === "blueLTCol" || targetSpan.id === "blueCol" || targetSpan.id === "blue1Star" || targetSpan.id === "blue2Star"){
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+                else{
+                    blueGrave.innerHTML += currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+            }
+
+            else if(currentSpan.id === "red4Star"){
+                // flag capture
+                if(targetSpan.id === "blueFlag"){
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                    end();
+                }
+                // tie
+                if(targetSpan.id === "blue4Star"){ 
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    blueGrave.innerHTML += currentDiv.innerHTML;
+                    targetDiv.innerHTML = "";
+                    currentDiv.innerHTML = "";
+                }
+                // capture
+                else if(targetSpan.id === "bluePrivate" || targetSpan.id === "blueSergeant" || targetSpan.id === "blue2LT" || targetSpan.id === "blue1LT" || targetSpan.id === "blueCaptain" || targetSpan.id === "blueMajor" || targetSpan.id === "blueLTCol" || targetSpan.id === "blueCol" || targetSpan.id === "blue1Star" || targetSpan.id === "blue2Star" || targetSpan.id === "blue3Star"){
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+                else{
+                    blueGrave.innerHTML += currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+            }
+
+            else if(currentSpan.id === "red5Star"){
+                // flag capture
+                if(targetSpan.id === "blueFlag"){
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                    end();
+                }
+                // tie
+                if(targetSpan.id === "blue5Star"){ 
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    blueGrave.innerHTML += currentDiv.innerHTML;
+                    targetDiv.innerHTML = "";
+                    currentDiv.innerHTML = "";
+                }
+                // capture
+                else if(targetSpan.id === "bluePrivate" || targetSpan.id === "blueSergeant" || targetSpan.id === "blue2LT" || targetSpan.id === "blue1LT" || targetSpan.id === "blueCaptain" || targetSpan.id === "blueMajor" || targetSpan.id === "blueLTCol" || targetSpan.id === "blueCol" || targetSpan.id === "blue1Star" || targetSpan.id === "blue2Star" || targetSpan.id === "blue3Star" || targetSpan.id === "blue4Star"){
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+                else{
+                    blueGrave.innerHTML += currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+            }
+
+            else if(currentSpan.id === "redSpy"){
+                // flag capture
+                if(targetSpan.id === "blueFlag"){
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                    end();
+                }
+                // tie
+                if(targetSpan.id === "blueSpy"){ 
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    blueGrave.innerHTML += currentDiv.innerHTML;
+                    targetDiv.innerHTML = "";
+                    currentDiv.innerHTML = "";
+                }
+                // capture
+                else if(targetSpan.id === "blueSergeant" || targetSpan.id === "blue2LT" || targetSpan.id === "blue1LT" || targetSpan.id === "blueCaptain" || targetSpan.id === "blueMajor" || targetSpan.id === "blueLTCol" || targetSpan.id === "blueCol" || targetSpan.id === "blue1Star" || targetSpan.id === "blue2Star" || targetSpan.id === "blue3Star"  || targetSpan.id === "blue4Star" || targetSpan.id === "blue5Star"){
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+                else{
+                    blueGrave.innerHTML += currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+            }
+
+            turnEnd = true;
+        }
+    }
+    
+    function redAI(){
+        didMove = true;
+        const divsWithRedSpan = Array.from(document.querySelectorAll('div.position span.red')).map(element => element.closest('div.position').id);
+        var counter = true;
+        var randomId;
+        var possiblePosition = [];
+        while(counter){
+            randomId = divsWithRedSpan[Math.floor(Math.random() * divsWithRedSpan.length)];
+
+            let selectedCellID = parseInt(randomId);
+            let cellToRightID = getCellToRight(selectedCellID);
+            let cellToLeftID = getCellToLeft(selectedCellID);
+            let cellAboveID = getCellAbove(selectedCellID);
+            let cellBelowID = getCellBelow(selectedCellID);
+            if(cellToRightID){
+                let right = document.getElementById(cellToRightID);
+                if(right.childNodes.length === 0){possiblePosition.push(cellToRightID);}
+                else if(right.querySelector('.piece').classList.contains("blue")){possiblePosition.push(cellToRightID);}
+            }
+            if(cellToLeftID){
+                let left = document.getElementById(cellToLeftID);
+                if(left.childNodes.length === 0){possiblePosition.push(cellToLeftID);}
+                else if(left.querySelector('.piece').classList.contains("blue")){possiblePosition.push(cellToLeftID);}
+            }
+            if(cellAboveID){
+                let up = document.getElementById(cellAboveID);
+                if(up.childNodes.length === 0){possiblePosition.push(cellAboveID);}
+                else if(up.querySelector('.piece').classList.contains("blue")){possiblePosition.push(cellAboveID);}
+            }
+            if(cellBelowID){
+                let down = document.getElementById(cellBelowID);
+                if(down.childNodes.length === 0){possiblePosition.push(cellBelowID);}
+                else if(down.querySelector('.piece').classList.contains("blue")){possiblePosition.push(cellBelowID);}
+            }
+
+            if (possiblePosition.length != 0) {
+                counter = false;
+            }
+            else{
+                counter = true;
+            }
+        }
+        
+
+        var randomInteger = possiblePosition.filter(num => num !== null)[Math.floor(Math.random() * possiblePosition.filter(num => num !== null).length)];
+        var randomDiv = document.getElementById(randomInteger);
+        currentDiv = document.getElementById(randomId);
+        moveDiv(randomDiv);
+        changeTurn();
+    }
+
+    function generateRedField(){
+        if(redPlace){
+            var i = 0;
+            while(i <= 20){
+                let r = document.getElementById(redCamp[i]);
+                let p = Math.floor(Math.random() * 27) + 46;
+
+                let t = document.getElementById(p);
+                
+                if(t.childNodes.length === 0){
+                    if(r.childNodes.length !== 0){
+                        t.innerHTML = r.innerHTML;
+                        r.innerHTML = "";
+                        pieceCount++;
+                    }
+                i++;
+                }
+            }
+        }
+    }
+
+    function generateBlueField(){
+        if(bluePlace){
+            var i = 0;
+            while(i <= 20){
+                let r = document.getElementById(blueCamp[i]);
+                let p = Math.floor(Math.random() * 27) + 1;
+
+                let t = document.getElementById(p);
+                
+                if(t.childNodes.length === 0){
+                    if(r.childNodes.length !== 0){
+                        t.innerHTML = r.innerHTML;
+                        r.innerHTML = "";
+                        pieceCount++;
+                    }
+                    i++;
+                }
+            }
+        }
+    }
+
+    function startTimer() {
+        a = seconds;
+        clearInterval(intervalId);
+		intervalId = setInterval(updateTimer, 1000);
+	}
+
+    function updateTimer() {
+		a--;
+		if (a <= 0) {
+            if(prevTargetDiv != targetDiv.id){
+                didMove = true;
+            }else{
+                didMove = false;
+            }
+			turnEnd = true;
+			clearInterval(intervalId);
+		}else{
+            didMove = true;
+        }
+
+		timerElement.innerHTML = `${Math.floor(a / 60)}:${(a % 60).toString().padStart(2, "0")}`;
+	}
+
+	function resetTimer() {
+		a = seconds;
+		timerElement.innerHTML = `${Math.floor(a / 60)}:${(a % 60).toString().padStart(2, "0")}`;
+	}
+
+    function translateToArray(){
+        let str = "";
+        let board = [];
+
+        for(var i = 1; i <= 72; i++){
+            let divElement = document.getElementById(i);
+
+            if (divElement.querySelector('span')) {
+                let span = divElement.querySelector('span');
+                let rank = span.id;
+                let rankValue = ranks.indexOf(rank);
+                let code = String.fromCharCode(64 + rankValue);
+
+                str += code;
+            }
+            else{
+                str += '-'
+            }
+        }
+        positionHistory[positionHistory.length] = str;
+    }
+
+    function updateHistory(){
+        let div = document.getElementById("history");
+        let childDiv = div.querySelectorAll("div");
+        let content;
+        if(div.childNodes.length === 0){
+            content = `
+                <div class="w-auto mx-1 my-2 bg-custom-green1 rounded-lg" id="${positionHistory[positionHistory.length - 1]}" onclick="moveHistory(this.id)">Board Setup</div>
+            `;
+        }else if(targetDiv.id == "bluePiece" || targetDiv.id == "redPiece"){
+            let a = targetDiv.parentElement;
+            content = `
+                <div class="w-auto mx-1 my-2 rounded-lg" id="${positionHistory[positionHistory.length - 1]}" onclick="moveHistory(this.id)">${currentDiv.id} to ${a.parentElement.id}</div>
+            `;
+        }else{ 
+            content = `
+                <div class="w-auto mx-1 my-2 rounded-lg" id="${positionHistory[positionHistory.length - 1]}" onclick="moveHistory(this.id)">${currentDiv.id} to ${targetDiv.id}</div>
+            `;
+        }
+        if(didMove){
+            div.insertAdjacentHTML("afterbegin", content);
+        }
+        if(childDiv.length > 0){
+            if(blueTurn){
+                div.firstElementChild.classList.add("bg-custom-blue1");
+            }
+            if(redTurn){
+                div.firstElementChild.classList.add("bg-custom-red1");
+            }
+        }        
+    }
+
+    function charToImg(x, y){
+        let c = x + 1;
+        let a = document.getElementById("h" + c);
+        let b;  
+        if(y != -19){
+            b = ranks[y];
+        }else{
+            b = "blank";
+        }
+        if(blueTurn){
+            if(b.includes("blue")){
+                switch (b){
+                    case "blueFlag":
+                        a.innerHTML = `<img src="EDP_Assets/Blue_Flag.png">`;
+                        break;
+                    case "bluePrivate":
+                        a.innerHTML = `<img src="EDP_Assets/Blue_Private.png">`;
+                        break;
+                    case "blueSpy":
+                        a.innerHTML = `<img src="EDP_Assets/Blue_Spy.png">`;
+                        break;
+                    case "blueSergeant":
+                        a.innerHTML = `<img src="EDP_Assets/Blue_Sergeant.png">`;
+                        break;
+                    case "blue2LT":
+                        a.innerHTML = `<img src="EDP_Assets/Blue_Lieut2.png">`;
+                        break;
+                    case "blue1LT":
+                        a.innerHTML = `<img src="EDP_Assets/Blue_Lieut1.png">`;
+                        break;
+                    case "blueCaptain":
+                        a.innerHTML = `<img src="EDP_Assets/Blue_Captain.png">`;
+                        break;
+                    case "blueMajor":
+                        a.innerHTML = `<img src="EDP_Assets/Blue_Major.png">`;
+                        break;
+                    case "blueLTCol":
+                        a.innerHTML = `<img src="EDP_Assets/Blue_LieutCol.png">`;
+                        break;
+                    case "blueCol":
+                        a.innerHTML = `<img src="EDP_Assets/Blue_Colonel.png">`;
+                        break;
+                    case "blue1Star":
+                        a.innerHTML = `<img src="EDP_Assets/Blue_BrigGen.png">`;
+                        break;
+                    case "blue2Star":
+                        a.innerHTML = `<img src="EDP_Assets/Blue_MajorGen.png">`;
+                        break;
+                    case "blue3Star":
+                        a.innerHTML = `<img src="EDP_Assets/Blue_LieutGen.png">`;
+                        break;
+                    case "blue4Star":
+                        a.innerHTML = `<img src="EDP_Assets/Blue_General.png">`;
+                        break;
+                    case "blue5Star":
+                        a.innerHTML = `<img src="EDP_Assets/Blue_ArmyGen.png">`;
+                        break;
+                }
+            }else if(b.includes("red")){
+                a.innerHTML = `<img src="EDP_Assets/Red_Hidden.png">`;
+            }
+        }
+        if(redTurn){
+            if(b.includes("red")){
+                switch (b){
+                    case "redFlag":
+                        a.innerHTML = `<img src="EDP_Assets/Red_Flag.png">`;
+                        break;
+                    case "redPrivate":
+                        a.innerHTML = `<img src="EDP_Assets/Red_Private.png">`;
+                        break;
+                    case "redSpy":
+                        a.innerHTML = `<img src="EDP_Assets/Red_Spy.png">`;
+                        break;
+                    case "redSergeant":
+                        a.innerHTML = `<img src="EDP_Assets/Red_Sergeant.png">`;
+                        break;
+                    case "red2LT":
+                        a.innerHTML = `<img src="EDP_Assets/Red_Lieut2.png">`;
+                        break;
+                    case "red1LT":
+                        a.innerHTML = `<img src="EDP_Assets/Red_Lieut1.png">`;
+                        break;
+                    case "redCaptain":
+                        a.innerHTML = `<img src="EDP_Assets/Red_Captain.png">`;
+                        break;
+                    case "redMajor":
+                        a.innerHTML = `<img src="EDP_Assets/Red_Major.png">`;
+                        break;
+                    case "redLTCol":
+                        a.innerHTML = `<img src="EDP_Assets/Red_LieutCol.png">`;
+                        break;
+                    case "redCol":
+                        a.innerHTML = `<img src="EDP_Assets/Red_Colonel.png">`;
+                        break;
+                    case "red1Star":
+                        a.innerHTML = `<img src="EDP_Assets/Red_BrigGen.png">`;
+                        break;
+                    case "red2Star":
+                        a.innerHTML = `<img src="EDP_Assets/Red_MajorGen.png">`;
+                        break;
+                    case "red3Star":
+                        a.innerHTML = `<img src="EDP_Assets/Red_LieutGen.png">`;
+                        break;
+                    case "red4Star":
+                        a.innerHTML = `<img src="EDP_Assets/Red_General.png">`;
+                        break;
+                    case "red5Star":
+                        a.innerHTML = `<img src="EDP_Assets/Red_ArmyGen.png">`;
+                        break;
+                }
+            }else if(b.includes("blue")){
+                a.innerHTML = `<img src="EDP_Assets/Blue_Hidden.png">`;
+            }
+        }
+    }
+
+    function storeBody(){
+        mainBody = document.getElementById("main").innerHTML;
+    }
+
+    function reset(){
+        gameEnd = false;
+        pieceCount = 0;
+        gameInProgress = false;
+        redTurn = false;
+        blueTurn = false;
+        redPlace = false;
+        bluePlace = false;
+        turnEnd = false;
+        blueFlagInBase = false;
+        redFlagInBase = false;
+        a = seconds;
+        positionHistory = [];
+        intervalId;
+
+        let mainDiv = document.getElementById("main");
+        mainDiv.innerHTML = mainBody;
+
+        timerElement = document.getElementById("timer");
+        clearInterval(intervalId);
+
+        observer.disconnect();
+        bCNode = document.querySelector("div[id='blueCapture']");
+        rCNode = document.querySelector("div[id='redCapture']");
+        observer.observe(bCNode, config);
+        observer.observe(rCNode, config);
+    }
+
+    function hideBlue(){
+        var bluePieces = document.querySelectorAll("#bluePiece");
+
+        for (var i = 0; i < bluePieces.length; i++) {
+            bluePieces[i].src = "EDP_Assets/Blue_Hidden.png";
+            bluePieces[i].alt = "Red Piece";
+        }
+    }
+
+    function hideRed(){
+        var redPieces = document.querySelectorAll("#redPiece");
+
+        for (var i = 0; i < redPieces.length; i++) {
+            redPieces[i].src = "EDP_Assets/Red_Hidden.png";
+            redPieces[i].alt = "Blue Piece";
+        }
+    }
+
+    function showPieces(){
+        if(blueTurn){
+            var bluePrivate = document.querySelectorAll("#bluePrivate");
+            
+            for (var i = 0; i < bluePrivate.length; i++) {
+                var bluePrivateimg = bluePrivate[i].querySelector("img");
+                bluePrivateimg.src = "EDP_Assets/Blue_Private.png";
+            }
+
+            var blueSpy = document.querySelectorAll("#blueSpy");
+            
+            for (var i = 0; i < blueSpy.length; i++) {
+                var blueSpyimg = blueSpy[i].querySelector("img");
+                blueSpyimg.src = "EDP_Assets/Blue_Spy.png";
+            }
+
+            var blueSergeant = document.getElementById("blueSergeant");
+            var blueSergeantimg = blueSergeant.querySelector("img");
+
+            blueSergeantimg.src = "EDP_Assets/Blue_Sergeant.png";
+            
+            var blue2LT = document.getElementById("blue2LT");
+            var blue2LTimg = blue2LT.querySelector("img");
+
+            blue2LTimg.src = "EDP_Assets/Blue_Lieut2.png";
+
+            var blue1LT = document.getElementById("blue1LT");
+            var blue1LTimg = blue1LT.querySelector("img");
+
+            blue1LTimg.src = "EDP_Assets/Blue_Lieut1.png";
+
+            var blueCaptain = document.getElementById("blueCaptain");
+            var blueCaptainimg = blueCaptain.querySelector("img");
+
+            blueCaptainimg.src = "EDP_Assets/Blue_Captain.png";
+        
+            var blueMajor = document.getElementById("blueMajor");
+            var blueMajorimg = blueMajor.querySelector("img");
+
+            blueMajorimg.src = "EDP_Assets/Blue_Major.png";
+
+            var blueLTCol = document.getElementById("blueLTCol");
+            var blueLTColimg = blueLTCol.querySelector("img");
+
+            blueLTColimg.src = "EDP_Assets/Blue_LieutCol.png";
+            
+            var blueCol = document.getElementById("blueCol");
+            var blueColimg = blueCol.querySelector("img");
+
+            blueColimg.src = "EDP_Assets/Blue_Colonel.png";
+
+            var blue1Star = document.getElementById("blue1Star");
+            var blue1Starimg = blue1Star.querySelector("img");
+
+            blue1Starimg.src = "EDP_Assets/Blue_BrigGen.png";
+            
+            var blue2Star = document.getElementById("blue2Star");
+            var blue2Starimg = blue2Star.querySelector("img");
+
+            blue2Starimg.src = "EDP_Assets/Blue_MajorGen.png";
+            
+            var blue3Star = document.getElementById("blue3Star");
+            var blue3Starimg = blue3Star.querySelector("img");
+
+            blue3Starimg.src = "EDP_Assets/Blue_LieutGen.png";
+            
+            var blue4Star = document.getElementById("blue4Star");
+            var blue4Starimg = blue4Star.querySelector("img");
+
+            blue4Starimg.src = "EDP_Assets/Blue_General.png";
+            
+            var blue5Star = document.getElementById("blue5Star");
+            var blue5Starimg = blue5Star.querySelector("img");
+
+            blue5Starimg.src = "EDP_Assets/Blue_ArmyGen.png";
+
+            var blueFlag = document.getElementById("blueFlag");
+            var blueFlagimg = blueFlag.querySelector("img");
+
+            blueFlagimg.src = "EDP_Assets/Blue_Flag.png";
+            let button = document.getElementById("showButton");
+            button.innerHTML = "Hide Pieces";
+            button.setAttribute("onclick", "hidePieces()");
+        }
+
+        if(redTurn){
+            var redPrivate = document.querySelectorAll("#redPrivate");
+            
+            for (var i = 0; i < redPrivate.length; i++) {
+                var redPrivateimg = redPrivate[i].querySelector("img");
+                redPrivateimg.src = "EDP_Assets/Red_Private.png";
+            }
+
+            var redSpy = document.querySelectorAll("#redSpy");
+            
+            for (var i = 0; i < redSpy.length; i++) {
+                var redSpyimg = redSpy[i].querySelector("img");
+                redSpyimg.src = "EDP_Assets/Red_Spy.png";
+            }
+
+            var redSergeant = document.getElementById("redSergeant");
+            var redSergeantimg = redSergeant.querySelector("img");
+
+            redSergeantimg.src = "EDP_Assets/Red_Sergeant.png";
+            
+            var red2LT = document.getElementById("red2LT");
+            var red2LTimg = red2LT.querySelector("img");
+
+            red2LTimg.src = "EDP_Assets/Red_Lieut2.png";
+
+            var red1LT = document.getElementById("red1LT");
+            var red1LTimg = red1LT.querySelector("img");
+
+            red1LTimg.src = "EDP_Assets/Red_Lieut1.png";
+
+            var redCaptain = document.getElementById("redCaptain");
+            var redCaptainimg = redCaptain.querySelector("img");
+
+            redCaptainimg.src = "EDP_Assets/Red_Captain.png";
+        
+            var redMajor = document.getElementById("redMajor");
+            var redMajorimg = redMajor.querySelector("img");
+
+            redMajorimg.src = "EDP_Assets/Red_Major.png";
+
+            var redLTCol = document.getElementById("redLTCol");
+            var redLTColimg = redLTCol.querySelector("img");
+
+            redLTColimg.src = "EDP_Assets/Red_LieutCol.png";
+            
+            var redCol = document.getElementById("redCol");
+            var redColimg = redCol.querySelector("img");
+
+            redColimg.src = "EDP_Assets/Red_Colonel.png";
+
+            var red1Star = document.getElementById("red1Star");
+            var red1Starimg = red1Star.querySelector("img");
+
+            red1Starimg.src = "EDP_Assets/Red_BrigGen.png";
+            
+            var red2Star = document.getElementById("red2Star");
+            var red2Starimg = red2Star.querySelector("img");
+
+            red2Starimg.src = "EDP_Assets/Red_MajorGen.png";
+            
+            var red3Star = document.getElementById("red3Star");
+            var red3Starimg = red3Star.querySelector("img");
+
+            red3Starimg.src = "EDP_Assets/Red_LieutGen.png";
+            
+            var red4Star = document.getElementById("red4Star");
+            var red4Starimg = red4Star.querySelector("img");
+
+            red4Starimg.src = "EDP_Assets/Red_General.png";
+            
+            var red5Star = document.getElementById("red5Star");
+            var red5Starimg = red5Star.querySelector("img");
+
+            red5Starimg.src = "EDP_Assets/Red_ArmyGen.png";
+
+            var redFlag = document.getElementById("redFlag");
+            var redFlagimg = redFlag.querySelector("img");
+
+            redFlagimg.src = "EDP_Assets/Red_Flag.png";
+
+            let button = document.getElementById("showButton");
+            button.innerHTML = "Hide Pieces";
+            button.setAttribute("onclick", "hidePieces()");
+        }
+        showCapture();
+    }
+
+    function showAllPieces(){{
+            var bluePrivate = document.querySelectorAll("#bluePrivate");
+            
+            for (var i = 0; i < bluePrivate.length; i++) {
+                var bluePrivateimg = bluePrivate[i].querySelector("img");
+                bluePrivateimg.src = "EDP_Assets/Blue_Private.png";
+            }
+
+            var blueSpy = document.querySelectorAll("#blueSpy");
+            
+            for (var i = 0; i < blueSpy.length; i++) {
+                var blueSpyimg = blueSpy[i].querySelector("img");
+                blueSpyimg.src = "EDP_Assets/Blue_Spy.png";
+            }
+
+            var blueSergeant = document.getElementById("blueSergeant");
+            var blueSergeantimg = blueSergeant.querySelector("img");
+
+            blueSergeantimg.src = "EDP_Assets/Blue_Sergeant.png";
+            
+            var blue2LT = document.getElementById("blue2LT");
+            var blue2LTimg = blue2LT.querySelector("img");
+
+            blue2LTimg.src = "EDP_Assets/Blue_Lieut2.png";
+
+            var blue1LT = document.getElementById("blue1LT");
+            var blue1LTimg = blue1LT.querySelector("img");
+
+            blue1LTimg.src = "EDP_Assets/Blue_Lieut1.png";
+
+            var blueCaptain = document.getElementById("blueCaptain");
+            var blueCaptainimg = blueCaptain.querySelector("img");
+
+            blueCaptainimg.src = "EDP_Assets/Blue_Captain.png";
+        
+            var blueMajor = document.getElementById("blueMajor");
+            var blueMajorimg = blueMajor.querySelector("img");
+
+            blueMajorimg.src = "EDP_Assets/Blue_Major.png";
+
+            var blueLTCol = document.getElementById("blueLTCol");
+            var blueLTColimg = blueLTCol.querySelector("img");
+
+            blueLTColimg.src = "EDP_Assets/Blue_LieutCol.png";
+            
+            var blueCol = document.getElementById("blueCol");
+            var blueColimg = blueCol.querySelector("img");
+
+            blueColimg.src = "EDP_Assets/Blue_Colonel.png";
+
+            var blue1Star = document.getElementById("blue1Star");
+            var blue1Starimg = blue1Star.querySelector("img");
+
+            blue1Starimg.src = "EDP_Assets/Blue_BrigGen.png";
+            
+            var blue2Star = document.getElementById("blue2Star");
+            var blue2Starimg = blue2Star.querySelector("img");
+
+            blue2Starimg.src = "EDP_Assets/Blue_MajorGen.png";
+            
+            var blue3Star = document.getElementById("blue3Star");
+            var blue3Starimg = blue3Star.querySelector("img");
+
+            blue3Starimg.src = "EDP_Assets/Blue_LieutGen.png";
+            
+            var blue4Star = document.getElementById("blue4Star");
+            var blue4Starimg = blue4Star.querySelector("img");
+
+            blue4Starimg.src = "EDP_Assets/Blue_General.png";
+            
+            var blue5Star = document.getElementById("blue5Star");
+            var blue5Starimg = blue5Star.querySelector("img");
+
+            blue5Starimg.src = "EDP_Assets/Blue_ArmyGen.png";
+
+            var blueFlag = document.getElementById("blueFlag");
+            var blueFlagimg = blueFlag.querySelector("img");
+
+            blueFlagimg.src = "EDP_Assets/Blue_Flag.png";
+
+            var redPrivate = document.querySelectorAll("#redPrivate");
+            
+            for (var i = 0; i < redPrivate.length; i++) {
+                var redPrivateimg = redPrivate[i].querySelector("img");
+                redPrivateimg.src = "EDP_Assets/Red_Private.png";
+            }
+
+            var redSpy = document.querySelectorAll("#redSpy");
+            
+            for (var i = 0; i < redSpy.length; i++) {
+                var redSpyimg = redSpy[i].querySelector("img");
+                redSpyimg.src = "EDP_Assets/Red_Spy.png";
+            }
+
+            var redSergeant = document.getElementById("redSergeant");
+            var redSergeantimg = redSergeant.querySelector("img");
+
+            redSergeantimg.src = "EDP_Assets/Red_Sergeant.png";
+            
+            var red2LT = document.getElementById("red2LT");
+            var red2LTimg = red2LT.querySelector("img");
+
+            red2LTimg.src = "EDP_Assets/Red_Lieut2.png";
+
+            var red1LT = document.getElementById("red1LT");
+            var red1LTimg = red1LT.querySelector("img");
+
+            red1LTimg.src = "EDP_Assets/Red_Lieut1.png";
+
+            var redCaptain = document.getElementById("redCaptain");
+            var redCaptainimg = redCaptain.querySelector("img");
+
+            redCaptainimg.src = "EDP_Assets/Red_Captain.png";
+        
+            var redMajor = document.getElementById("redMajor");
+            var redMajorimg = redMajor.querySelector("img");
+
+            redMajorimg.src = "EDP_Assets/Red_Major.png";
+
+            var redLTCol = document.getElementById("redLTCol");
+            var redLTColimg = redLTCol.querySelector("img");
+
+            redLTColimg.src = "EDP_Assets/Red_LieutCol.png";
+            
+            var redCol = document.getElementById("redCol");
+            var redColimg = redCol.querySelector("img");
+
+            redColimg.src = "EDP_Assets/Red_Colonel.png";
+
+            var red1Star = document.getElementById("red1Star");
+            var red1Starimg = red1Star.querySelector("img");
+
+            red1Starimg.src = "EDP_Assets/Red_BrigGen.png";
+            
+            var red2Star = document.getElementById("red2Star");
+            var red2Starimg = red2Star.querySelector("img");
+
+            red2Starimg.src = "EDP_Assets/Red_MajorGen.png";
+            
+            var red3Star = document.getElementById("red3Star");
+            var red3Starimg = red3Star.querySelector("img");
+
+            red3Starimg.src = "EDP_Assets/Red_LieutGen.png";
+            
+            var red4Star = document.getElementById("red4Star");
+            var red4Starimg = red4Star.querySelector("img");
+
+            red4Starimg.src = "EDP_Assets/Red_General.png";
+            
+            var red5Star = document.getElementById("red5Star");
+            var red5Starimg = red5Star.querySelector("img");
+
+            red5Starimg.src = "EDP_Assets/Red_ArmyGen.png";
+
+            var redFlag = document.getElementById("redFlag");
+            var redFlagimg = redFlag.querySelector("img");
+
+            redFlagimg.src = "EDP_Assets/Red_Flag.png";
+        }
+        showCapture();
+    }
+
+    function showCapture(){
+        if(show){
+            if(redTurn){
+                let redGrave = document.getElementById("redCapture");
+                var bluePriv = redGrave.querySelectorAll("#bluePrivate");
+                
+                for (var i = 0; i < bluePriv.length; i++) {
+                    var bluePrivateimg = bluePriv[i].querySelector("img");
+                    bluePrivateimg.src = "EDP_Assets/Blue_Private.png";
+                }
+
+                var blueS = redGrave.querySelectorAll("#blueSpy");
+                
+                for (var i = 0; i < blueS.length; i++) {
+                    var blueSpyimg = blueS[i].querySelector("img");
+                    blueSpyimg.src = "EDP_Assets/Blue_Spy.png";
+                }
+
+                var blue1 = redGrave.querySelector("#blueSergeant");
+                var blueSergeantimg = blue1.querySelector("img");
+
+                blueSergeantimg.src = "EDP_Assets/Blue_Sergeant.png";
+                
+                var blue2= redGrave.querySelector("#blue2LT");
+                var blue2LTimg = blue2.querySelector("img");
+
+                blue2LTimg.src = "EDP_Assets/Blue_Lieut2.png";
+
+                var blue3 = redGrave.querySelector("#blue1LT");
+                var blue1LTimg = blue3.querySelector("img");
+
+                blue1LTimg.src = "EDP_Assets/Blue_Lieut1.png";
+
+                var blue4 = redGrave.querySelector("#blueCaptain");
+                var blueCaptainimg = blue4.querySelector("img");
+
+                blueCaptainimg.src = "EDP_Assets/Blue_Captain.png";
+
+                var blue5 = redGrave.querySelector("#blueMajor");
+                var blueMajorimg = blue5.querySelector("img");
+
+                blueMajorimg.src = "EDP_Assets/Blue_Major.png";
+
+                var blue6 = redGrave.querySelector("#blueLTCol");
+                var blueLTColimg = blue6.querySelector("img");
+
+                blueLTColimg.src = "EDP_Assets/Blue_LieutCol.png";
+                
+                var blue7 = redGrave.querySelector("#blueCol");
+                var blueColimg = blue7.querySelector("img");
+
+                blueColimg.src = "EDP_Assets/Blue_Colonel.png";
+
+                var blue8 = redGrave.querySelector("#blue1Star");
+                var blue1Starimg = blue8.querySelector("img");
+
+                blue1Starimg.src = "EDP_Assets/Blue_BrigGen.png";
+                
+                var blue9 = redGrave.querySelector("#blue2Star");
+                var blue2Starimg = blue9.querySelector("img");
+
+                blue2Starimg.src = "EDP_Assets/Blue_MajorGen.png";
+                
+                var blue10 = redGrave.querySelector("#blue3Star");
+                var blue3Starimg = blue10.querySelector("img");
+
+                blue3Starimg.src = "EDP_Assets/Blue_LieutGen.png";
+                
+                var blue11 = redGrave.querySelector("#blue4Star");
+                var blue4Starimg = blue11.querySelector("img");
+
+                blue4Starimg.src = "EDP_Assets/Blue_General.png";
+                
+                var blue12 = redGrave.querySelector("#blue5Star");
+                var blue5Starimg = blue12.querySelector("img");
+
+                blue5Starimg.src = "EDP_Assets/Blue_ArmyGen.png";
+
+                var blue13 = redGrave.querySelector("#blueFlag");
+                var blueFlagimg = blue13.querySelector("img");
+
+                blueFlagimg.src = "EDP_Assets/Blue_Flag.png";
+                let button = document.getElementById("#showButton");
+                button.innerHTML = "Hide Pieces";
+                button.setAttribute("onclick", "hidePieces()");
+            }
+
+            else if(blueTurn){
+                let blueGrave = document.getElementById("blueCapture")
+                var redPriv = blueGrave.querySelectorAll("#redPrivate");
+                
+                for (var i = 0; i < redPriv.length; i++) {
+                    var redPrivateimg = redPriv[i].querySelector("img");
+                    redPrivateimg.src = "EDP_Assets/Red_Private.png";
+                }
+
+                var redS = blueGrave.querySelectorAll("#redSpy");
+                
+                for (var i = 0; i < redS.length; i++) {
+                    var redSpyimg = redS[i].querySelector("img");
+                    redSpyimg.src = "EDP_Assets/Red_Spy.png";
+                }
+
+                var red1 = blueGrave.querySelector("#redSergeant");
+                var redSergeantimg = red1.querySelector("img");
+
+                redSergeantimg.src = "EDP_Assets/Red_Sergeant.png";
+                
+                var red2 = blueGrave.querySelector("#red2LT");
+                var red2LTimg = red2.querySelector("img");
+
+                red2LTimg.src = "EDP_Assets/Red_Lieut2.png";
+
+                var red3 = blueGrave.querySelector("#red1LT");
+                var red1LTimg = red3.querySelector("img");
+
+                red1LTimg.src = "EDP_Assets/Red_Lieut1.png";
+
+                var red4 = blueGrave.querySelector("#redCaptain");
+                var redCaptainimg = red4.querySelector("img");
+
+                redCaptainimg.src = "EDP_Assets/Red_Captain.png";
+
+                var red5 = blueGrave.querySelector("#redMajor");
+                var redMajorimg = red5.querySelector("img");
+
+                redMajorimg.src = "EDP_Assets/Red_Major.png";
+
+                var red6 = blueGrave.querySelector("#redLTCol");
+                var redLTColimg = red6.querySelector("img");
+
+                redLTColimg.src = "EDP_Assets/Red_LieutCol.png";
+                
+                var red7 = blueGrave.querySelector("#redCol");
+                var redColimg = red7.querySelector("img");
+
+                redColimg.src = "EDP_Assets/Red_Colonel.png";
+
+                var red8= blueGrave.querySelector("#red1Star");
+                var red1Starimg = red8.querySelector("img");
+
+                red1Starimg.src = "EDP_Assets/Red_BrigGen.png";
+                
+                var red9 = blueGrave.querySelector("#red2Star");
+                var red2Starimg = red9.querySelector("img");
+
+                red2Starimg.src = "EDP_Assets/Red_MajorGen.png";
+                
+                var red10 = blueGrave.querySelector("#red3Star");
+                var red3Starimg = red10.querySelector("img");
+
+                red3Starimg.src = "EDP_Assets/Red_LieutGen.png";
+                
+                var red11 = blueGrave.querySelector("#red4Star");
+                var red4Starimg = red11.querySelector("img");
+
+                red4Starimg.src = "EDP_Assets/Red_General.png";
+                
+                var red12 = blueGrave.querySelector("#red5Star");
+                var red5Starimg = red12.querySelector("img");
+
+                red5Starimg.src = "EDP_Assets/Red_ArmyGen.png";
+
+                var red13 = blueGrave.querySelector("#redFlag");
+                var redFlagimg = red13.querySelector("img");
+
+                redFlagimg.src = "EDP_Assets/Red_Flag.png";
+
+                let button = document.getElementById("showButton");
+                button.innerHTML = "Hide Pieces";
+                button.setAttribute("onclick", "hidePieces()");
+            }
+        }
+    }
+
+    function hidePieces(){
+        hideBlue();
+        hideRed();
+
+        let button = document.getElementById("showButton");
+        button.innerHTML = "Show Pieces";
+        button.setAttribute("onclick", "showPieces()");
+    }
+
+    function changeTurn(){
+        if(!turnEnd){
+            alert("You Must move a Piece!")
+        }
+        else{
+            if(blueTurn){
+                startTimer();
+                resetTimer();
+                translateToArray();
+                updateHistory();
+                hidePieces();
+                prevTargetDiv = targetDiv.id;
+                blueTurn = false;
+                redTurn = true;
+                indicator = document.getElementById("turnIndicator");
+                indicator.innerHTML = `<i class="fa-solid fa-flag mr-1"></i>Red's Turn`;
+                turnEnd = false;
+                flagInBase();
+                document.getElementById("grid").classList.remove('border-blue');
+                document.getElementById("grid").classList.add('border-red');
+                if(AI){redAI();}
+            }else if(redTurn){
+                startTimer();
+                resetTimer();
+                translateToArray();
+                updateHistory();
+                hidePieces();
+                prevTargetDiv = targetDiv.id;
+                redTurn = false;
+                blueTurn = true;
+                indicator = document.getElementById("turnIndicator");
+                indicator.innerHTML = `<i class="fa-solid fa-flag mr-1"></i>Blue's Turn`;
+                turnEnd = false;
+                flagInBase();
+                document.getElementById("grid").classList.remove('border-red');
+                document.getElementById("grid").classList.add('border-blue');
+            }
+        }
+    }
+    
+    function placePieces(){
+        if(!redPlace && !bluePlace){ //enable blue placements
+            bluePlace = true;
+            document.getElementById("grid").classList.remove('border-green');
+            document.getElementById("grid").classList.add('border-blue');
+
+            let button = document.getElementById("placePieceButton");
+            button.innerHTML = "Place Red";
+        }
+        else if(!redPlace && bluePlace && pieceCount < 21){
+            alert("Not all Pieces are placed!");
+        }
+        else if(!redPlace && bluePlace && pieceCount == 21){ //enable red placements
+            hideBlue();
+
+            let button = document.getElementById("placePieceButton");
+            button.innerHTML = "Start"
+            document.getElementById("grid").classList.remove('border-blue');
+            document.getElementById("grid").classList.add('border-red');
+
+            redPlace = true;
+            if(AI){generateRedField();hideRed();}
+            
+        }
+        else if(redPlace && bluePlace && pieceCount < 42){
+            alert("Not all Pieces are placed!");
+        }
+        else if(redPlace && bluePlace && pieceCount == 42){
+            hideRed();
+            gameInProgress = true;
+            startTimer();
+            blueTurn = true;
+            document.getElementById("grid").classList.remove('border-red');
+            document.getElementById("grid").classList.add('border-blue');
+
+            let div = document.getElementById("indicators");
+
+            div.innerHTML = `<div id="turnIndicator"><i class="fa-solid fa-flag mr-1"></i>Blue's Turn</div>
+                            <button id="showButton" class="h-12 rounded-full text-lg bg-custom-green1 px-8" onclick="showPieces()">Show Pieces</button>`;
+            
+
+            let button = document.getElementById("placePieceButton");
+            button.innerHTML = "End Turn"
+            button.setAttribute("onclick", "changeTurn()");
+            translateToArray();
+            updateHistory();
+            let random = document.getElementById("randomizeButton");
+            random.remove();
+        }
+
+    }
+
+    function end(){
+        let temp = document.getElementById("placePieceButton");
+        temp.remove();
+        winner = flagRemain();
+        dropConfetti();
+        setTimeout(function(){
+            endGame();
+        }, 3000);
+        showAllPieces();
+        gameInProgress = false;
+        a = 1;
+        blueTurn = true;
+        redTurn = true;
+        gameEnd = true;
+    }
+
+    function dragStart(e) {
+        currentDiv = e.target;
+        e.dataTransfer.setData("text/plain", currentDiv.innerHTML);
+    }
+
+    function dragOver(e) {
+        e.preventDefault();
+    }
+
+    function dropSpan(event) {
+        const parentDiv = event.target.closest("div");
+
+        dropDiv({ target: parentDiv });
+    }
+
+    function dropDiv(e) {
+        targetDiv = e.target;
+
+        if(gameEnd){return;}
+        if (targetDiv.tagName.toLowerCase() === "span") {return;}
+
+        const piece = currentDiv.querySelector('.piece');
+        const targetSpan = targetDiv.querySelector('.piece');
+        const currentSpan = currentDiv.querySelector('.piece');
+        var selectedCellID = parseInt(currentDiv.id);
+        var cellToRightID = getCellToRight(selectedCellID);
+        var cellToLeftID = getCellToLeft(selectedCellID);
+        var cellAboveID = getCellAbove(selectedCellID);
+        var cellBelowID = getCellBelow(selectedCellID);
+        const blueGrave = document.getElementById("blueCapture");
+        const redGrave = document.getElementById("redCapture")
+        var possiblePosition = [];
+        possiblePosition.push(cellToRightID);
+        possiblePosition.push(cellToLeftID);
+        possiblePosition.push(cellAboveID);
+        possiblePosition.push(cellBelowID);
+
+        // Drag Pieces onto Board
+
+        if (currentDiv.classList.contains("bluePieces") && targetDiv.classList.contains("position") && parseInt(targetDiv.id) < 28 && targetDiv.childNodes.length === 0 && bluePlace && !gameInProgress && currentDiv.childNodes.length !== 0){
+            
+            targetDiv.innerHTML = currentDiv.innerHTML;
+            currentDiv.innerHTML = "";
+            pieceCount++;
+        }
+
+        else if (currentDiv.classList.contains("redPieces") && targetDiv.classList.contains("position") && parseInt(targetDiv.id) > 45 && targetDiv.childNodes.length === 0 && !gameInProgress && redPlace && currentDiv.childNodes.length !== 0){
+            
+            targetDiv.innerHTML = currentDiv.innerHTML;
+            currentDiv.innerHTML = "";
+            pieceCount++;
+        }
+
+        // Move Pieces Before Game Start
+
+        else if (targetDiv.classList.contains("position") && targetDiv !== currentDiv && targetDiv.childNodes.length === 0 && !gameInProgress && parseInt(currentDiv.id) < 28 && parseInt(targetDiv.id) < 28 && !redPlace) {
+            
+            targetDiv.innerHTML = currentDiv.innerHTML;
+            currentDiv.innerHTML = "";
+        }
+
+        else if (targetDiv.classList.contains("position") && targetDiv !== currentDiv && targetDiv.childNodes.length === 0 && !gameInProgress && parseInt(currentDiv.id) > 45 && parseInt(targetDiv.id) > 45) {
+            
+            targetDiv.innerHTML = currentDiv.innerHTML;
+            currentDiv.innerHTML = "";
+        }
+
+        // Move Pieces When Game Has Started (empty div) - blue turn
+
+        else if (!turnEnd && targetDiv.classList.contains("position") && targetDiv !== currentDiv && possiblePosition.includes(parseInt(targetDiv.id)) && targetDiv.childNodes.length === 0 && gameInProgress && blueTurn && piece.classList.contains("blue")) {
+            targetDiv.innerHTML = currentDiv.innerHTML;
+            currentDiv.innerHTML = "";
+            turnEnd = true;
+            if(currentSpan.id === "blueFlag" && parseInt(targetDiv.id) > 63){
+                let adjacentCells = [];
+                
+                selectedCellID = parseInt(targetDiv.id);
+                cellToRightID = getCellToRight(selectedCellID);
+                cellToLeftID = getCellToLeft(selectedCellID);
+                cellAboveID = getCellAbove(selectedCellID);
+                cellBelowID = getCellBelow(selectedCellID);
+                let down = '';
+                let left = '';
+                let up = '';
+                let right = '';
+                if(cellToRightID){
+                    let right = document.getElementById(cellToRightID);
+                    if(right.childNodes.length !== 0){adjacentCells.push(cellToRightID);}
+                }
+                if(cellToLeftID){
+                    let left = document.getElementById(cellToLeftID);
+                    if(left.childNodes.length !== 0){adjacentCells.push(cellToLeftID);}
+                }
+                if(cellAboveID){
+                    let up = document.getElementById(cellAboveID);
+                    if(up.childNodes.length !== 0){adjacentCells.push(cellAboveID);}
+                }
+                if(cellBelowID){
+                    let down = document.getElementById(cellBelowID);
+                    if(down.childNodes.length !== 0){adjacentCells.push(cellBelowID);}
+                }
+
+                let isEmpty = adjacentCells.filter(cell => cell !== null).length === 0;
+
+                if(isEmpty){
+                    end();
+                }
+                else{
+                    blueFlagInBase = true;
+                }
+            }
+        }
+
+        // Move Pieces When Game Has Started (empty div) - red turn
+
+        else if (!turnEnd && targetDiv.classList.contains("position") && targetDiv !== currentDiv && possiblePosition.includes(parseInt(targetDiv.id)) && targetDiv.childNodes.length === 0 && gameInProgress && redTurn && piece.classList.contains("red")) {
+            targetDiv.innerHTML = currentDiv.innerHTML;
+            currentDiv.innerHTML = "";
+            turnEnd = true;
+            if(currentSpan.id === "redFlag" && parseInt(targetDiv.id) < 10){
+                let adjacentCells = [];
+                selectedCellID = parseInt(targetDiv.id);
+                cellToRightID = getCellToRight(selectedCellID);
+                cellToLeftID = getCellToLeft(selectedCellID);
+                cellAboveID = getCellAbove(selectedCellID);
+                cellBelowID = getCellBelow(selectedCellID);
+                let down = '';
+                let left = '';
+                let up = '';
+                let right = '';
+                if(cellToRightID){
+                    let right = document.getElementById(cellToRightID);
+                    if(right.childNodes.length !== 0){adjacentCells.push(cellToRightID);}
+                }
+                if(cellToLeftID){
+                    let left = document.getElementById(cellToLeftID);
+                    if(left.childNodes.length !== 0){adjacentCells.push(cellToLeftID);}
+                }
+                if(cellAboveID){
+                    let up = document.getElementById(cellAboveID);
+                    if(up.childNodes.length !== 0){adjacentCells.push(cellAboveID);}
+                }
+                if(cellBelowID){
+                    let down = document.getElementById(cellBelowID);
+                    if(down.childNodes.length !== 0){adjacentCells.push(cellBelowID);}
+                }
+
+                let isEmpty = adjacentCells.filter(cell => cell !== null).length === 0;
+
+                if(isEmpty){
+                    end();
+                    
+                }
+                else{
+                    redFlagInBase = true;
+                }
+            }
+        }
+
+        // Move Pieces When Game Has Started (capture) - blue turn
+
+        else if (!turnEnd && targetDiv.classList.contains("position") && targetDiv !== currentDiv && possiblePosition.includes(parseInt(targetDiv.id)) && gameInProgress && blueTurn && !targetSpan.classList.contains("blue")  && currentSpan.classList.contains("blue")) {
+            if(currentSpan.id === "blueFlag"){
+                if(targetSpan.id === "redFlag"){
+                    blueGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                    end();
+                }
+                else{
+                    redGrave.innerHTML += currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                    end();
+                }
+            }
+            
+            else if(currentSpan.id === "bluePrivate"){
+                if(targetSpan.id === "redFlag"){
+                    blueGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                    end();
+                }
+                if(targetSpan.id === "redPrivate"){
+                    blueGrave.innerHTML += targetDiv.innerHTML;
+                    redGrave.innerHTML += currentDiv.innerHTML;
+                    targetDiv.innerHTML = "";
+                    currentDiv.innerHTML = "";
+                }
+                else if(targetSpan.id === "redSpy"){
+                    blueGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+                else{
+                    redGrave.innerHTML += currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+            }
+        
+            else if(currentSpan.id === "blueSergeant"){
+                if(targetSpan.id === "redFlag"){
+                    blueGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                    end();
+                }
+                if(targetSpan.id === "redSergeant"){
+                    blueGrave.innerHTML += targetDiv.innerHTML;
+                    redGrave.innerHTML += currentDiv.innerHTML;
+                    targetDiv.innerHTML = "";
+                    currentDiv.innerHTML = "";
+                }
+                else if(targetSpan.id === "redPrivate"){
+                    blueGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+                else{
+                    redGrave.innerHTML += currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+            }
+        
+            else if(currentSpan.id === "blue2LT"){
+                // flag capture
+                if(targetSpan.id === "redFlag"){
+                    blueGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                    end();
+                }
+                // tie
+                if(targetSpan.id === "red2LT"){ 
+                    blueGrave.innerHTML += targetDiv.innerHTML;
+                    redGrave.innerHTML += currentDiv.innerHTML;
+                    targetDiv.innerHTML = "";
+                    currentDiv.innerHTML = "";
+                }
+                // capture
+                else if(targetSpan.id === "redPrivate" || targetSpan.id === "redSergeant"){
+                    blueGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+                else{
+                    redGrave.innerHTML += currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+            }
+        
+            else if(currentSpan.id === "blue1LT"){
+                // flag capture
+                if(targetSpan.id === "redFlag"){
+                    blueGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                    end();
+                }
+                // tie
+                if(targetSpan.id === "red1LT"){ 
+                    blueGrave.innerHTML += targetDiv.innerHTML;
+                    redGrave.innerHTML += currentDiv.innerHTML;
+                    targetDiv.innerHTML = "";
+                    currentDiv.innerHTML = "";
+                }
+                // capture
+                else if(targetSpan.id === "redPrivate" || targetSpan.id === "redSergeant" || targetSpan.id === "red2LT"){
+                    blueGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+                else{
+                    redGrave.innerHTML += currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+            }
+        
+            else if(currentSpan.id === "blueCaptain"){
+                // flag capture
+                if(targetSpan.id === "redFlag"){
+                    blueGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                    end();
+                }
+                // tie
+                if(targetSpan.id === "redCaptain"){ 
+                    blueGrave.innerHTML += targetDiv.innerHTML;
+                    redGrave.innerHTML += currentDiv.innerHTML;
+                    targetDiv.innerHTML = "";
+                    currentDiv.innerHTML = "";
+                }
+                // capture
+                else if(targetSpan.id === "redPrivate" || targetSpan.id === "redSergeant" || targetSpan.id === "red2LT" || targetSpan.id === "red1LT"){
+                    blueGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+                else{
+                    redGrave.innerHTML += currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+            }
+        
+            else if(currentSpan.id === "blueMajor"){
+                // flag capture
+                if(targetSpan.id === "redFlag"){
+                    blueGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                    end();
+                }
+                // tie
+                if(targetSpan.id === "redMajor"){ 
+                    blueGrave.innerHTML += targetDiv.innerHTML;
+                    redGrave.innerHTML += currentDiv.innerHTML;
+                    targetDiv.innerHTML = "";
+                    currentDiv.innerHTML = "";
+                }
+                // capture
+                else if(targetSpan.id === "redPrivate" || targetSpan.id === "redSergeant" || targetSpan.id === "red2LT" || targetSpan.id === "red1LT" || targetSpan.id === "redCaptain"){
+                    blueGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+                else{
+                    redGrave.innerHTML += currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+            }
+        
+            else if(currentSpan.id === "blueLTCol"){
+                // flag capture
+                if(targetSpan.id === "redFlag"){
+                    blueGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                    end();
+                }
+                // tie
+                if(targetSpan.id === "redLTCol"){ 
+                    blueGrave.innerHTML += targetDiv.innerHTML;
+                    redGrave.innerHTML += currentDiv.innerHTML;
+                    targetDiv.innerHTML = "";
+                    currentDiv.innerHTML = "";
+                }
+                // capture
+                else if(targetSpan.id === "redPrivate" || targetSpan.id === "redSergeant" || targetSpan.id === "red2LT" || targetSpan.id === "red1LT" || targetSpan.id === "redCaptain" || targetSpan.id === "redMajor"){
+                    blueGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+                else{
+                    redGrave.innerHTML += currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+            }
+        
+            else if(currentSpan.id === "blueCol"){
+                // flag capture
+                if(targetSpan.id === "redFlag"){
+                    blueGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                    end();
+                }
+                // tie
+                if(targetSpan.id === "redCol"){ 
+                    blueGrave.innerHTML += targetDiv.innerHTML;
+                    redGrave.innerHTML += currentDiv.innerHTML;
+                    targetDiv.innerHTML = "";
+                    currentDiv.innerHTML = "";
+                }
+                // capture
+                else if(targetSpan.id === "redPrivate" || targetSpan.id === "redSergeant" || targetSpan.id === "red2LT" || targetSpan.id === "red1LT" || targetSpan.id === "redCaptain" || targetSpan.id === "redMajor" || targetSpan.id === "redLTCol"){
+                    blueGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+                else{
+                    redGrave.innerHTML += currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+            }
+        
+            else if(currentSpan.id === "blue1Star"){
+                // flag capture
+                if(targetSpan.id === "redFlag"){
+                    blueGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                    end();
+                }
+                // tie
+                if(targetSpan.id === "red1Star"){ 
+                    blueGrave.innerHTML += targetDiv.innerHTML;
+                    redGrave.innerHTML += currentDiv.innerHTML;
+                    targetDiv.innerHTML = "";
+                    currentDiv.innerHTML = "";
+                }
+                // capture
+                else if(targetSpan.id === "redPrivate" || targetSpan.id === "redSergeant" || targetSpan.id === "red2LT" || targetSpan.id === "red1LT" || targetSpan.id === "redCaptain" || targetSpan.id === "redMajor" || targetSpan.id === "redLTCol" || targetSpan.id === "redCol"){
+                    blueGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+                else{
+                    redGrave.innerHTML += currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+            }
+        
+            else if(currentSpan.id === "blue2Star"){
+                // flag capture
+                if(targetSpan.id === "redFlag"){
+                    blueGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                    end();
+                }
+                // tie
+                if(targetSpan.id === "red2Star"){ 
+                    blueGrave.innerHTML += targetDiv.innerHTML;
+                    redGrave.innerHTML += currentDiv.innerHTML;
+                    targetDiv.innerHTML = "";
+                    currentDiv.innerHTML = "";
+                }
+                // capture
+                else if(targetSpan.id === "redPrivate" || targetSpan.id === "redSergeant" || targetSpan.id === "red2LT" || targetSpan.id === "red1LT" || targetSpan.id === "redCaptain" || targetSpan.id === "redMajor" || targetSpan.id === "redLTCol" || targetSpan.id === "redCol" || targetSpan.id === "red1Star"){
+                    blueGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+                else{
+                    redGrave.innerHTML += currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+            }
+        
+            else if(currentSpan.id === "blue3Star"){
+                // flag capture
+                if(targetSpan.id === "redFlag"){
+                    blueGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                    end();
+                }
+                // tie
+                if(targetSpan.id === "red3Star"){ 
+                    blueGrave.innerHTML += targetDiv.innerHTML;
+                    redGrave.innerHTML += currentDiv.innerHTML;
+                    targetDiv.innerHTML = "";
+                    currentDiv.innerHTML = "";
+                }
+                // capture
+                else if(targetSpan.id === "redPrivate" || targetSpan.id === "redSergeant" || targetSpan.id === "red2LT" || targetSpan.id === "red1LT" || targetSpan.id === "redCaptain" || targetSpan.id === "redMajor" || targetSpan.id === "redLTCol" || targetSpan.id === "redCol" || targetSpan.id === "red1Star" || targetSpan.id === "red2Star"){
+                    blueGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+                else{
+                    redGrave.innerHTML += currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+            }
+        
+            else if(currentSpan.id === "blue4Star"){
+                // flag capture
+                if(targetSpan.id === "redFlag"){
+                    blueGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                    end();
+                }
+                // tie
+                if(targetSpan.id === "red4Star"){ 
+                    blueGrave.innerHTML += targetDiv.innerHTML;
+                    redGrave.innerHTML += currentDiv.innerHTML;
+                    targetDiv.innerHTML = "";
+                    currentDiv.innerHTML = "";
+                }
+                // capture
+                else if(targetSpan.id === "redPrivate" || targetSpan.id === "redSergeant" || targetSpan.id === "red2LT" || targetSpan.id === "red1LT" || targetSpan.id === "redCaptain" || targetSpan.id === "redMajor" || targetSpan.id === "redLTCol" || targetSpan.id === "redCol" || targetSpan.id === "red1Star" || targetSpan.id === "red2Star" || targetSpan.id === "red3Star"){
+                    blueGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+                else{
+                    redGrave.innerHTML += currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+            }
+        
+            else if(currentSpan.id === "blue5Star"){
+                // flag capture
+                if(targetSpan.id === "redFlag"){
+                    blueGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                    end();
+                }
+                // tie
+                if(targetSpan.id === "red5Star"){ 
+                    blueGrave.innerHTML += targetDiv.innerHTML;
+                    redGrave.innerHTML += currentDiv.innerHTML;
+                    targetDiv.innerHTML = "";
+                    currentDiv.innerHTML = "";
+                }
+                // capture
+                else if(targetSpan.id === "redPrivate" || targetSpan.id === "redSergeant" || targetSpan.id === "red2LT" || targetSpan.id === "red1LT" || targetSpan.id === "redCaptain" || targetSpan.id === "redMajor" || targetSpan.id === "redLTCol" || targetSpan.id === "redCol" || targetSpan.id === "red1Star" || targetSpan.id === "red2Star" || targetSpan.id === "red3Star" || targetSpan.id === "red4Star"){
+                    blueGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+                else{
+                    redGrave.innerHTML += currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+            }
+        
+            else if(currentSpan.id === "blueSpy"){
+                // flag capture
+                if(targetSpan.id === "redFlag"){
+                    blueGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                    end();
+                }
+                // tie
+                if(targetSpan.id === "redSpy"){ 
+                    blueGrave.innerHTML += targetDiv.innerHTML;
+                    redGrave.innerHTML += currentDiv.innerHTML;
+                    targetDiv.innerHTML = "";
+                    currentDiv.innerHTML = "";
+                }
+                // capture
+                else if(targetSpan.id === "redSergeant" || targetSpan.id === "red2LT" || targetSpan.id === "red1LT" || targetSpan.id === "redCaptain" || targetSpan.id === "redMajor" || targetSpan.id === "redLTCol" || targetSpan.id === "redCol" || targetSpan.id === "red1Star" || targetSpan.id === "red2Star" || targetSpan.id === "red3Star"  || targetSpan.id === "red4Star" || targetSpan.id === "red5Star"){
+                    blueGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+                else{
+                    redGrave.innerHTML += currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+            }
+        
+            turnEnd = true;
+        }
+                      
+        // Move Pieces When Game Has Started (capture) - red turn
+
+        else if (!turnEnd && targetDiv.classList.contains("position") && targetDiv !== currentDiv && possiblePosition.includes(parseInt(targetDiv.id)) && gameInProgress && redTurn && !targetSpan.classList.contains("red") && currentSpan.classList.contains("red")) {
+                        
+            if(currentSpan.id === "redFlag"){
+                if(targetSpan.id === "blueFlag"){
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                    end();
+                }
+                else{
+                    blueGrave.innerHTML += currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                    end();
+                }
+            }
+            
+            else if(currentSpan.id === "redPrivate"){
+                if(targetSpan.id === "blueFlag"){
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                    end();
+                }
+                if(targetSpan.id === "bluePrivate"){
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    blueGrave.innerHTML += currentDiv.innerHTML;
+                    targetDiv.innerHTML = "";
+                    currentDiv.innerHTML = "";
+                }
+                else if(targetSpan.id === "blueSpy"){
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+                else{
+                    blueGrave.innerHTML += currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+            }
+
+            else if(currentSpan.id === "redSergeant"){
+                if(targetSpan.id === "blueFlag"){
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                    end();
+                }
+                if(targetSpan.id === "blueSergeant"){
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    blueGrave.innerHTML += currentDiv.innerHTML;
+                    targetDiv.innerHTML = "";
+                    currentDiv.innerHTML = "";
+                }
+                else if(targetSpan.id === "bluePrivate"){
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+                else{
+                    blueGrave.innerHTML += currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+            }
+
+            else if(currentSpan.id === "red2LT"){
+                // flag capture
+                if(targetSpan.id === "blueFlag"){
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                    end();
+                }
+                // tie
+                if(targetSpan.id === "blue2LT"){ 
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    blueGrave.innerHTML += currentDiv.innerHTML;
+                    targetDiv.innerHTML = "";
+                    currentDiv.innerHTML = "";
+                }
+                // capture
+                else if(targetSpan.id === "bluePrivate" || targetSpan.id === "blueSergeant"){
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+                else{
+                    blueGrave.innerHTML += currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+            }
+
+            else if(currentSpan.id === "red1LT"){
+                // flag capture
+                if(targetSpan.id === "blueFlag"){
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                    end();
+                }
+                // tie
+                if(targetSpan.id === "blue1LT"){ 
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    blueGrave.innerHTML += currentDiv.innerHTML;
+                    targetDiv.innerHTML = "";
+                    currentDiv.innerHTML = "";
+                }
+                // capture
+                else if(targetSpan.id === "bluePrivate" || targetSpan.id === "blueSergeant" || targetSpan.id === "blue2LT"){
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+                else{
+                    blueGrave.innerHTML += currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+            }
+
+            else if(currentSpan.id === "redCaptain"){
+                // flag capture
+                if(targetSpan.id === "blueFlag"){
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                    end();
+                }
+                // tie
+                if(targetSpan.id === "blueCaptain"){ 
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    blueGrave.innerHTML += currentDiv.innerHTML;
+                    targetDiv.innerHTML = "";
+                    currentDiv.innerHTML = "";
+                }
+                // capture
+                else if(targetSpan.id === "bluePrivate" || targetSpan.id === "blueSergeant" || targetSpan.id === "blue2LT" || targetSpan.id === "blue1LT"){
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+                else{
+                    blueGrave.innerHTML += currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+            }
+
+            else if(currentSpan.id === "redMajor"){
+                // flag capture
+                if(targetSpan.id === "blueFlag"){
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                    end();
+                }
+                // tie
+                if(targetSpan.id === "blueMajor"){ 
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    blueGrave.innerHTML += currentDiv.innerHTML;
+                    targetDiv.innerHTML = "";
+                    currentDiv.innerHTML = "";
+                }
+                // capture
+                else if(targetSpan.id === "bluePrivate" || targetSpan.id === "blueSergeant" || targetSpan.id === "blue2LT" || targetSpan.id === "blue1LT" || targetSpan.id === "blueCaptain"){
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+                else{
+                    blueGrave.innerHTML += currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+            }
+
+            else if(currentSpan.id === "redLTCol"){
+                // flag capture
+                if(targetSpan.id === "blueFlag"){
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                    end();
+                }
+                // tie
+                if(targetSpan.id === "blueLTCol"){ 
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    blueGrave.innerHTML += currentDiv.innerHTML;
+                    targetDiv.innerHTML = "";
+                    currentDiv.innerHTML = "";
+                }
+                // capture
+                else if(targetSpan.id === "bluePrivate" || targetSpan.id === "blueSergeant" || targetSpan.id === "blue2LT" || targetSpan.id === "blue1LT" || targetSpan.id === "blueCaptain" || targetSpan.id === "blueMajor"){
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+                else{
+                    blueGrave.innerHTML += currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+            }
+
+            else if(currentSpan.id === "redCol"){
+                // flag capture
+                if(targetSpan.id === "blueFlag"){
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                    end();
+                }
+                // tie
+                if(targetSpan.id === "blueCol"){ 
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    blueGrave.innerHTML += currentDiv.innerHTML;
+                    targetDiv.innerHTML = "";
+                    currentDiv.innerHTML = "";
+                }
+                // capture
+                else if(targetSpan.id === "bluePrivate" || targetSpan.id === "blueSergeant" || targetSpan.id === "blue2LT" || targetSpan.id === "blue1LT" || targetSpan.id === "blueCaptain" || targetSpan.id === "blueMajor" || targetSpan.id === "blueLTCol"){
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+                else{
+                    blueGrave.innerHTML += currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+            }
+
+            else if(currentSpan.id === "red1Star"){
+                // flag capture
+                if(targetSpan.id === "blueFlag"){
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                    end();
+                }
+                // tie
+                if(targetSpan.id === "blue1Star"){ 
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    blueGrave.innerHTML += currentDiv.innerHTML;
+                    targetDiv.innerHTML = "";
+                    currentDiv.innerHTML = "";
+                }
+                // capture
+                else if(targetSpan.id === "bluePrivate" || targetSpan.id === "blueSergeant" || targetSpan.id === "blue2LT" || targetSpan.id === "blue1LT" || targetSpan.id === "blueCaptain" || targetSpan.id === "blueMajor" || targetSpan.id === "blueLTCol" || targetSpan.id === "blueCol"){
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+                else{
+                    blueGrave.innerHTML += currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+            }
+
+            else if(currentSpan.id === "red2Star"){
+                // flag capture
+                if(targetSpan.id === "blueFlag"){
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                    end();
+                }
+                // tie
+                if(targetSpan.id === "blue2Star"){ 
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    blueGrave.innerHTML += currentDiv.innerHTML;
+                    targetDiv.innerHTML = "";
+                    currentDiv.innerHTML = "";
+                }
+                // capture
+                else if(targetSpan.id === "bluePrivate" || targetSpan.id === "blueSergeant" || targetSpan.id === "blue2LT" || targetSpan.id === "blue1LT" || targetSpan.id === "blueCaptain" || targetSpan.id === "blueMajor" || targetSpan.id === "blueLTCol" || targetSpan.id === "blueCol" || targetSpan.id === "blue1Star"){
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+                else{
+                    blueGrave.innerHTML += currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+            }
+
+            else if(currentSpan.id === "red3Star"){
+                // flag capture
+                if(targetSpan.id === "blueFlag"){
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                    end();
+                }
+                // tie
+                if(targetSpan.id === "blue3Star"){ 
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    blueGrave.innerHTML += currentDiv.innerHTML;
+                    targetDiv.innerHTML = "";
+                    currentDiv.innerHTML = "";
+                }
+                // capture
+                else if(targetSpan.id === "bluePrivate" || targetSpan.id === "blueSergeant" || targetSpan.id === "blue2LT" || targetSpan.id === "blue1LT" || targetSpan.id === "blueCaptain" || targetSpan.id === "blueMajor" || targetSpan.id === "blueLTCol" || targetSpan.id === "blueCol" || targetSpan.id === "blue1Star" || targetSpan.id === "blue2Star"){
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+                else{
+                    blueGrave.innerHTML += currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+            }
+
+            else if(currentSpan.id === "red4Star"){
+                // flag capture
+                if(targetSpan.id === "blueFlag"){
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                    end();
+                }
+                // tie
+                if(targetSpan.id === "blue4Star"){ 
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    blueGrave.innerHTML += currentDiv.innerHTML;
+                    targetDiv.innerHTML = "";
+                    currentDiv.innerHTML = "";
+                }
+                // capture
+                else if(targetSpan.id === "bluePrivate" || targetSpan.id === "blueSergeant" || targetSpan.id === "blue2LT" || targetSpan.id === "blue1LT" || targetSpan.id === "blueCaptain" || targetSpan.id === "blueMajor" || targetSpan.id === "blueLTCol" || targetSpan.id === "blueCol" || targetSpan.id === "blue1Star" || targetSpan.id === "blue2Star" || targetSpan.id === "blue3Star"){
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+                else{
+                    blueGrave.innerHTML += currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+            }
+
+            else if(currentSpan.id === "red5Star"){
+                // flag capture
+                if(targetSpan.id === "blueFlag"){
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                    end();
+                }
+                // tie
+                if(targetSpan.id === "blue5Star"){ 
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    blueGrave.innerHTML += currentDiv.innerHTML;
+                    targetDiv.innerHTML = "";
+                    currentDiv.innerHTML = "";
+                }
+                // capture
+                else if(targetSpan.id === "bluePrivate" || targetSpan.id === "blueSergeant" || targetSpan.id === "blue2LT" || targetSpan.id === "blue1LT" || targetSpan.id === "blueCaptain" || targetSpan.id === "blueMajor" || targetSpan.id === "blueLTCol" || targetSpan.id === "blueCol" || targetSpan.id === "blue1Star" || targetSpan.id === "blue2Star" || targetSpan.id === "blue3Star" || targetSpan.id === "blue4Star"){
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+                else{
+                    blueGrave.innerHTML += currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+            }
+
+            else if(currentSpan.id === "redSpy"){
+                // flag capture
+                if(targetSpan.id === "blueFlag"){
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                    end();
+                }
+                // tie
+                if(targetSpan.id === "blueSpy"){ 
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    blueGrave.innerHTML += currentDiv.innerHTML;
+                    targetDiv.innerHTML = "";
+                    currentDiv.innerHTML = "";
+                }
+                // capture
+                else if(targetSpan.id === "blueSergeant" || targetSpan.id === "blue2LT" || targetSpan.id === "blue1LT" || targetSpan.id === "blueCaptain" || targetSpan.id === "blueMajor" || targetSpan.id === "blueLTCol" || targetSpan.id === "blueCol" || targetSpan.id === "blue1Star" || targetSpan.id === "blue2Star" || targetSpan.id === "blue3Star"  || targetSpan.id === "blue4Star" || targetSpan.id === "blue5Star"){
+                    redGrave.innerHTML += targetDiv.innerHTML;
+                    targetDiv.innerHTML = currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+                else{
+                    blueGrave.innerHTML += currentDiv.innerHTML;
+                    currentDiv.innerHTML = "";
+                }
+            }
+
+            turnEnd = true;
+        }
+    }
+
+    function getCellToRight(ID) {
+        return (ID % 9 !== 0) ? ID + 1 : null;
+    }
+
+    function getCellToLeft(ID) {
+        return ((ID - 1) % 9 !== 0) ? ID - 1 : null;
+    }
+
+    function getCellAbove(ID) {
+        return (ID > 9) ? ID - 9 : null;
+    }
+
+    function getCellBelow(ID) {
+        return (ID < 64) ? ID + 9 : null;
+    }
+    
+    function flagRemain(){
+        let winnerId = null;
+        let numFlags = 0;
+        let mainGrid = document.getElementById("grid");
+        let gridChildren = mainGrid.querySelectorAll("span");
+        gridChildren.forEach((span) => {
+            if (/flag/i.test(span.id)) {
+                winnerId = span.id;
+                numFlags++;
+            }
+        });
+        if(numFlags > 1){
+            if(blueFlagInBase){
+                return "blueFlag";
+            }
+            if(redFlagInBase){
+                return "redFlag";
+            }
+        }
+        return winnerId;
+    }
+    
+    var bCNode = document.querySelector("div[id='blueCapture']");
+    var rCNode = document.querySelector("div[id='redCapture']");
+    var config = {childList: true, subtree: true};
+
+    const observer = new MutationObserver((mutationsList) => {
+        for (const mutation of mutationsList) {
+            if (mutation.target === bCNode && mutation.addedNodes.length > 0) {
+                for (const node of mutation.addedNodes) {
+                    if (node.nodeType === Node.ELEMENT_NODE) {
+                        const img = node.querySelector("img");
+                        if (img) {
+                            img.classList.add("h-8");
+                            img.classList.add("p-1");
+                        }
+                    }
+                }
+            }
+            
+            if (mutation.target === rCNode && mutation.addedNodes.length > 0) {
+                for (const node of mutation.addedNodes) {
+                    if (node.nodeType === Node.ELEMENT_NODE) {
+                        const img = node.querySelector("img");
+                        if (img) {
+                            img.classList.add("h-8");
+                            img.classList.add("p-1");
+                        }
+                    }
+                }
+            }
+        }
+    });
+    observer.observe(bCNode, config);
+    observer.observe(rCNode, config);
+</script>
+</html>
